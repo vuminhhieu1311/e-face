@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SettingsScreen from '../screens/SettingsScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import { TouchableOpacity } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,11 +27,11 @@ const SettingStack = ({ navigation }) => {
                 options={{
                     headerLeft: () => (
                         <TouchableOpacity>
-                            <Feather
+                            <Icon
                                 name="menu"
                                 size={25}
                                 onPress={() => { navigation.openDrawer(); }}
-                                color="#FFF"></Feather>
+                                color="#FFF"></Icon>
                         </TouchableOpacity>
                     )
                 }} />
@@ -39,4 +39,5 @@ const SettingStack = ({ navigation }) => {
         </Stack.Navigator>
     );
 };
+
 export default SettingStack;

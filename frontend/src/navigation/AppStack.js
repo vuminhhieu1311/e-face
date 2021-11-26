@@ -2,13 +2,12 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from '../components/CustomDrawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import VideoCallScreen from '../screens/VideoCallScreen';
 import SettingStack from './SettingStack';
 import LogoTitle from '../components/LogoTitle';
-import HomeStack from './HomeStack';
+import BottomTab from './BottomTab';
 
 const Drawer = createDrawerNavigator();
 
@@ -31,15 +30,13 @@ const AppStack = () => {
                 headerTintColor: '#FFF'
             }}>
             <Drawer.Screen
-                name="HomeStack"
-                component={HomeStack}
+                name="BottomTab"
+                component={BottomTab}
                 options={{
                     drawerIcon: ({ color }) => (
                         <Ionicons name="home-outline" size={22} color={color} />
                     ),
-                    headerShown: true,
-                    title: "Home",
-                    headerTitle: (props) => <LogoTitle {...props} />
+                    title: "Home"
                 }}
             />
             <Drawer.Screen
