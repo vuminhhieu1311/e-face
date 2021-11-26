@@ -1,10 +1,13 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 
-const SettingsScreen = () => {
+const SettingsScreen = ({ navigation }) => {
   return (
-    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Settings Screen</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Change Password')}>
+        <Text>Go to change password</Text>
+      </TouchableOpacity>
     </View>
   )
 }

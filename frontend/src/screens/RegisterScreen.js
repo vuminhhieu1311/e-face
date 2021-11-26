@@ -40,11 +40,11 @@ const RegisterScreen = ({ navigation }) => {
                                 if (code === 200 && res.user) {
                                     login(res.user, res.token);
                                 } else if (code == 422) {
-                                    navigation.navigate('LoginScreen');
+                                    navigation.navigate('Login');
                                 }
                             }).catch(error => {
                                 console.log(error);
-                                navigation.navigate('LoginScreen');
+                                navigation.navigate('Login');
                             });
                     } else if (statusCode == 422) {
                         setErrors({

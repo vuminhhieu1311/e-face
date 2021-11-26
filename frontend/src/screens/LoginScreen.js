@@ -111,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
 
             <View style={styles.button}>
                 <VioletButton text="Sign In" onPress={handleLogin} />
-                <WhiteButton text="Sign Up" onPress={() => navigation.navigate('RegisterScreen')} />
+                <WhiteButton text="Sign Up" onPress={() => navigation.navigate('Register')} />
             </View>
         </AuthLayout>
     );

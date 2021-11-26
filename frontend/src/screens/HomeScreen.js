@@ -41,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
                 .then(([statusCode, data]) => {
                     console.log(data);
                     if (statusCode === 200) {
-                        navigation.navigate('VideoCallScreen', {
+                        navigation.navigate('Video Call', {
                             agoraToken: data.agora_token,
                         });
                     }
@@ -90,7 +90,6 @@ const height_logo = height * 0.4;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#6F4299'
     },
     header: {
         flex: 2,

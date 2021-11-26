@@ -5,8 +5,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MessagesScreen from '../screens/MessagesScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import VideoCallScreen from '../screens/VideoCallScreen';
+import SettingStack from './SettingStack';
+import LogoTitle from '../components/LogoTitle';
+import HomeStack from './HomeStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,14 +25,21 @@ const AppStack = () => {
                     marginLeft: -10,
                     fontSize: 17,
                 },
+                headerStyle: {
+                    backgroundColor: '#6F4299',
+                },
+                headerTintColor: '#FFF'
             }}>
             <Drawer.Screen
-                name="Home"
-                component={HomeScreen}
+                name="HomeStack"
+                component={HomeStack}
                 options={{
                     drawerIcon: ({ color }) => (
                         <Ionicons name="home-outline" size={22} color={color} />
                     ),
+                    headerShown: true,
+                    title: "Home",
+                    headerTitle: (props) => <LogoTitle {...props} />
                 }}
             />
             <Drawer.Screen
@@ -61,8 +70,8 @@ const AppStack = () => {
                 }}
             />
             <Drawer.Screen
-                name="Settings"
-                component={SettingsScreen}
+                name="SettingStack"
+                component={SettingStack}
                 options={{
                     drawerIcon: ({ color }) => (
                         <Ionicons name="settings-outline" size={22} color={color} />
