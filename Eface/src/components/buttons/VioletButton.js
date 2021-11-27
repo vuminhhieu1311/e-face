@@ -2,11 +2,11 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const VioletButton = ({ text, onPress}) => {
+const VioletButton = ({ text, ...rest}) => {
     return (
         <TouchableOpacity
             style={styles.signIn}
-            onPress={onPress}
+            {...rest}
         >
             <LinearGradient
                 colors={['#6F4299', '#c084fc']}

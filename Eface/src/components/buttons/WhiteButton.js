@@ -1,15 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const WhiteButton = ({ text, onPress }) => {
+const WhiteButton = ({ text, ...rest }) => {
     return (
         <TouchableOpacity
-            onPress={onPress}
             style={[styles.signIn, {
                 borderColor: '#6F4299',
                 borderWidth: 1,
                 marginTop: 15
             }]}
+            {...rest}
         >
             <Text style={[styles.textSign, {
                 color: '#6F4299'

@@ -2,11 +2,9 @@ import React, { useContext, useState } from 'react';
 import {
     View,
     TouchableOpacity,
-    TextInput,
     Platform,
     StyleSheet,
 } from 'react-native';
-import { FormControl, Stack } from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDeviceName } from 'react-native-device-info';
 
@@ -17,6 +15,7 @@ import WhiteButton from '../components/buttons/WhiteButton';
 import { AuthContext } from '../utils/Context';
 import createToken from '../api/createToken';
 import { showErrorToast } from '../components/ToastMessage';
+import FormInput from '../components/forms/FormInput';
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -47,68 +46,38 @@ const LoginScreen = ({ navigation }) => {
     return (
         <AuthLayout>
             <TextHeader text="Login" />
-
-            <FormControl isRequired mb="5">
-                <Stack mx="4">
-                    <FormControl.Label
-                        _text={{
-                            fontSize: 'lg',
-                        }}>Email</FormControl.Label>
-                    <View style={styles.action}>
+            <FormInput
+                label="Email"
+                icon="email-outline"
+                placeholder="Your email"
+                keyboardType="email-address"
+                onChangeText={(value) => setEmail(value)}
+            />
+            <FormInput
+                label="Password"
+                icon="lock-outline"
+                placeholder="Your Password"
+                secureTextEntry={passwordSecured}
+                onChangeText={(value) => setPassword(value)}
+            >
+                <TouchableOpacity
+                    onPress={() => setPasswordSecured(!passwordSecured)}
+                >
+                    {passwordSecured ?
                         <Icon
-                            name="email-outline"
+                            name="eye-off-outline"
+                            color="#6F4299"
                             size={20}
                         />
-                        <TextInput
-                            placeholder="Your email"
-                            placeholderTextColor="#666666"
-                            style={styles.textInput}
-                            keyboardType="email-address"
-                            onChangeText={(value) => setEmail(value)}
-                        />
-                    </View>
-                </Stack>
-            </FormControl>
-
-            <FormControl isRequired mb="5">
-                <Stack mx="4">
-                    <FormControl.Label
-                        _text={{
-                            fontSize: 'lg',
-                        }}>Password</FormControl.Label>
-                    <View style={styles.action}>
+                        :
                         <Icon
-                            name="lock-outline"
+                            name="eye-outline"
+                            color="#6F4299"
                             size={20}
                         />
-                        <TextInput
-                            placeholder="Your Password"
-                            placeholderTextColor="#666666"
-                            secureTextEntry={passwordSecured}
-                            style={styles.textInput}
-                            onChangeText={(value) => setPassword(value)}
-                        />
-                        <TouchableOpacity
-                            onPress={() => setPasswordSecured(!passwordSecured)}
-                        >
-                            {passwordSecured ?
-                                <Icon
-                                    name="eye-off-outline"
-                                    color="#6F4299"
-                                    size={20}
-                                />
-                                :
-                                <Icon
-                                    name="eye-outline"
-                                    color="#6F4299"
-                                    size={20}
-                                />
-                            }
-                        </TouchableOpacity>
-                    </View>
-                </Stack>
-            </FormControl>
-
+                    }
+                </TouchableOpacity>
+            </FormInput>
             <View style={styles.button}>
                 <VioletButton text="Sign In" onPress={handleLogin} />
                 <WhiteButton text="Sign Up" onPress={() => navigation.navigate('Register')} />

@@ -2,11 +2,9 @@ import React, { useState, useContext } from 'react';
 import {
     View,
     TouchableOpacity,
-    TextInput,
     Platform,
     StyleSheet,
 } from 'react-native';
-import { FormControl, Stack } from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDeviceName } from 'react-native-device-info';
 
@@ -18,6 +16,7 @@ import registerUser from '../api/registerUser';
 import { showErrorToast } from '../components/ToastMessage';
 import createToken from '../api/createToken';
 import { AuthContext } from '../utils/Context';
+import FormInput from '../components/forms/FormInput';
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -67,143 +66,73 @@ const RegisterScreen = ({ navigation }) => {
     return (
         <AuthLayout>
             <TextHeader text="Register" />
-
-            <FormControl isRequired mb="5">
-                <Stack mx="4">
-                    <FormControl.Label
-                        _text={{
-                            fontSize: 'lg',
-                        }}>Name</FormControl.Label>
-                    <View style={styles.action}>
+            <FormInput
+                label="Name"
+                icon="account-outline"
+                placeholder="Your name"
+                onChangeText={(value) => setName(value)}
+                error={errors.name}
+            />
+            <FormInput
+                label="Email"
+                icon="email-outline"
+                placeholder="Your email"
+                keyboardType="email-address"
+                onChangeText={(value) => setEmail(value)}
+                error={errors.email}
+            />
+            <FormInput
+                label="Password"
+                icon="lock-outline"
+                placeholder="Your Password"
+                secureTextEntry={passwordSecured}
+                onChangeText={(value) => setPassword(value)}
+                error={errors.password}
+            >
+                <TouchableOpacity
+                    onPress={() => setPasswordSecured(!passwordSecured)}
+                >
+                    {passwordSecured ?
                         <Icon
-                            name="account-outline"
+                            name="eye-off-outline"
+                            color="#6F4299"
                             size={20}
                         />
-                        <TextInput
-                            placeholder="Your name"
-                            placeholderTextColor="#666666"
-                            style={styles.textInput}
-                            onChangeText={(value) => setName(value)}
+                        :
+                        <Icon
+                            name="eye-outline"
+                            color="#6F4299"
+                            size={20}
                         />
-                    </View>
-                    {errors.name ?
-                        <FormControl.HelperText _text={{ color: '#b91c1c' }}>
-                            {errors.name}
-                        </FormControl.HelperText> : null
                     }
-                </Stack>
-            </FormControl>
-
-            <FormControl isRequired mb="5">
-                <Stack mx="4">
-                    <FormControl.Label
-                        _text={{
-                            fontSize: 'lg',
-                        }}>Email</FormControl.Label>
-                    <View style={styles.action}>
+                </TouchableOpacity>
+            </FormInput>
+            <FormInput
+                label="Confirm Password"
+                icon="lock-outline"
+                placeholder="Confirm Password"
+                secureTextEntry={passwordConfirmationSecured}
+                onChangeText={(value) => setPasswordConfirmation(value)}
+                error={errors.password}
+            >
+                <TouchableOpacity
+                    onPress={() => setPasswordConfirmationSecured(!passwordConfirmationSecured)}
+                >
+                    {passwordConfirmationSecured ?
                         <Icon
-                            name="email-outline"
+                            name="eye-off-outline"
+                            color="#6F4299"
                             size={20}
                         />
-                        <TextInput
-                            placeholder="Your email"
-                            placeholderTextColor="#666666"
-                            style={styles.textInput}
-                            keyboardType="email-address"
-                            onChangeText={(value) => setEmail(value)}
+                        :
+                        <Icon
+                            name="eye-outline"
+                            color="#6F4299"
+                            size={20}
                         />
-                    </View>
-                    {errors.email ?
-                        <FormControl.HelperText _text={{ color: '#b91c1c' }}>
-                            {errors.email}
-                        </FormControl.HelperText> : null
                     }
-                </Stack>
-            </FormControl>
-
-            <FormControl isRequired mb="5">
-                <Stack mx="4">
-                    <FormControl.Label
-                        _text={{
-                            fontSize: 'lg',
-                        }}>Password</FormControl.Label>
-                    <View style={styles.action}>
-                        <Icon
-                            name="lock-outline"
-                            size={20}
-                        />
-                        <TextInput
-                            placeholder="Your Password"
-                            placeholderTextColor="#666666"
-                            secureTextEntry={passwordSecured}
-                            style={styles.textInput}
-                            onChangeText={(value) => setPassword(value)}
-                        />
-                        <TouchableOpacity
-                            onPress={() => setPasswordSecured(!passwordSecured)}
-                        >
-                            {passwordSecured ?
-                                <Icon
-                                    name="eye-off-outline"
-                                    color="#6F4299"
-                                    size={20}
-                                />
-                                :
-                                <Icon
-                                    name="eye-outline"
-                                    color="#6F4299"
-                                    size={20}
-                                />
-                            }
-                        </TouchableOpacity>
-                    </View>
-                    {errors.password ?
-                        <FormControl.HelperText _text={{ color: '#b91c1c' }}>
-                            {errors.password}
-                        </FormControl.HelperText> : null
-                    }
-                </Stack>
-            </FormControl>
-
-            <FormControl isRequired mb="5">
-                <Stack mx="4">
-                    <FormControl.Label
-                        _text={{
-                            fontSize: 'lg',
-                        }}>Confirm Password</FormControl.Label>
-                    <View style={styles.action}>
-                        <Icon
-                            name="lock-outline"
-                            size={20}
-                        />
-                        <TextInput
-                            placeholder="Confirm Password"
-                            placeholderTextColor="#666666"
-                            secureTextEntry={passwordConfirmationSecured}
-                            style={styles.textInput}
-                            onChangeText={(value) => setPasswordConfirmation(value)}
-                        />
-                        <TouchableOpacity
-                            onPress={() => setPasswordConfirmationSecured(!passwordConfirmationSecured)}
-                        >
-                            {passwordConfirmationSecured ?
-                                <Icon
-                                    name="eye-off-outline"
-                                    color="#6F4299"
-                                    size={20}
-                                />
-                                :
-                                <Icon
-                                    name="eye-outline"
-                                    color="#6F4299"
-                                    size={20}
-                                />
-                            }
-                        </TouchableOpacity>
-                    </View>
-                </Stack>
-            </FormControl>
-
+                </TouchableOpacity>
+            </FormInput>
             <View style={styles.button}>
                 <VioletButton text="Sign Up" onPress={handleRegister} />
                 <WhiteButton text="Sign In" onPress={() => navigation.goBack()} />
