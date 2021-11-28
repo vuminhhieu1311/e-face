@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { screenWidth } from '../../utils/Dimensions';
 
 export const Container = styled.View`
     flex: 1;
@@ -6,6 +7,7 @@ export const Container = styled.View`
     padding-right: 20px;
     align-items: center;
     background-color: #ffffff;
+    margin-bottom: 78px;
 `;
 
 export const Card = styled.TouchableOpacity`
@@ -34,7 +36,7 @@ export const TextSection = styled.View`
     padding: 15px;
     padding-left: 0;
     margin-left: 10px;
-    width: 300px;
+    width: ${screenWidth - 90}px;
     border-bottom-width: 1px;
     border-bottom-color: #f5d0fe;
 `;

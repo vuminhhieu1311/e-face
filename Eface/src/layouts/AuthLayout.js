@@ -24,7 +24,9 @@ const AuthLayout = (props) => {
                 animation="fadeInUpBig"
                 style={styles.footer}
             >
-                <ScrollView>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                >
                     {props.children}
                 </ScrollView>
             </Animatable.View>

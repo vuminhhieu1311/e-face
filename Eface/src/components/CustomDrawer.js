@@ -18,16 +18,9 @@ const CustomDrawer = (props) => {
     const { user, userToken } = useSelector(state => state.authReducer);
 
     const handleLogout = async () => {
+        logout();
         try {
-            await deleteToken(userToken)
-                .then(([statusCode, data]) => {
-                    if (statusCode === 200) {
-                        logout();
-                    }
-                }).catch(error => {
-                    console.log(error);
-                    showErrorToast("Logout Fail.");
-                });
+            await deleteToken(userToken);
         } catch (error) {
             console.log(error);
             showErrorToast("Logout Fail.");

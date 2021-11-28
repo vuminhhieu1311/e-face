@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import { Bubble, GiftedChat, InputToolbar, Send, Time } from 'react-native-gifted-chat';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -51,7 +51,7 @@ const ChatScreen = () => {
             },
             {
                 _id: 5,
-                text: 'Hello world 2',
+                text: 'Hello world 2 dsfes erfer efwe wefdwef wcfwefr',
                 createdAt: new Date(),
                 user: {
                     _id: 1,
@@ -90,7 +90,6 @@ const ChatScreen = () => {
                 },
             },
         ]);
-        console.log(messages);
     }, []);
 
     const onSend = useCallback((messages = []) => {
@@ -103,7 +102,7 @@ const ChatScreen = () => {
         return (
             <Send {...props}
                 containerStyle={{
-                    marginLeft: 20
+                    marginLeft: 20,
                 }}
             >
                 <View>
@@ -147,6 +146,18 @@ const ChatScreen = () => {
         );
     };
 
+    const renderInputToolbar = (props) => {
+        return (
+            <InputToolbar
+                {...props}
+                primaryStyle={{
+                    borderWidth: 0.2,
+                    borderColor: '#d946ef',
+                }}
+            />
+        );
+    };
+
     const scrollToBottomComponent = () => {
         return (
             <FontAwesome name='angle-double-down' size={22} color='#d946ef' />
@@ -162,8 +173,9 @@ const ChatScreen = () => {
             }}
             renderBubble={renderBubble}
             renderTime={renderTime}
-            alwaysShowSend
             renderSend={renderSend}
+            renderInputToolbar={renderInputToolbar}
+            alwaysShowSend
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
         />

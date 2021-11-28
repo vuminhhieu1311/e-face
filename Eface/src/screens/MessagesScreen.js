@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
+import getFriends from '../api/getFriends';
 import {
     Container,
     Card,
@@ -13,72 +15,54 @@ import {
     TextSection,
 } from '../assets/styles/MessagesStyles';
 
-const messages = [
-    {
-        id: '1',
-        userName: 'Jenny Doe',
-        userImg: require('../assets/images/user-3.jpg'),
-        messageTime: '4 mins ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '2',
-        userName: 'John Doe',
-        userImg: require('../assets/images/user-1.jpg'),
-        messageTime: '2 hours ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '3',
-        userName: 'Ken William',
-        userImg: require('../assets/images/user-4.jpg'),
-        messageTime: '1 hours ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '4',
-        userName: 'Selina Paul',
-        userImg: require('../assets/images/user-6.jpg'),
-        messageTime: '1 day ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '5',
-        userName: 'Christy Alex',
-        userImg: require('../assets/images/user-7.jpg'),
-        messageTime: '2 days ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-];
-
 const MessagesScreen = ({ navigation }) => {
+    const { user, userToken } = useSelector(state => state.authReducer);
+    const [friends, setFriends] = useState([]);
+
+    useEffect(() => {
+        getFriendList();
+    }, []);
+
+    const getFriendList = async () => {
+        try {
+            await getFriends(userToken)
+                .then(([statusCode, data]) => {
+                    if (statusCode === 200 && data.users) {
+                        setFriends(data.users);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    showErrorToast("Login Fail.");
+                });
+        } catch (error) {
+            console.log(error);
+            showErrorToast("Login Fail.");
+        }
+    }
+
     return (
         <Container>
             <FlatList
-                data={messages}
+                data={friends}
                 keyExtractor={item => item.id}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Card
                         onPress={() =>
                             navigation.navigate('Chat', {
-                                userName: item.userName,
+                                user: item,
                             })
                         }>
                         <UserInfo>
                             <UserImgWrapper>
-                                <UserImg source={item.userImg} />
+                                <UserImg source={require('../assets/images/user-1.jpg')} />
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>
-                                    <UserName>{item.userName}</UserName>
-                                    <PostTime>{item.messageTime}</PostTime>
+                                    <UserName>{item.name}</UserName>
+                                    <PostTime>1 day ago</PostTime>
                                 </UserInfoText>
-                                <MessageText>{item.messageText}</MessageText>
+                                <MessageText>Hey there, this is my test. Hey there, this is my test.</MessageText>
                             </TextSection>
                         </UserInfo>
                     </Card>

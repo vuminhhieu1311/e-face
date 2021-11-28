@@ -11,17 +11,15 @@ const VideoCallScreen = ({ navigation, route }) => {
 
     const rtcProps = {
         appId: AGORA_APP_ID,
-        channel: 'test',
+        channel: route.params?.channelName,
         token: route.params?.agoraToken,
         // layout: layout.pin,
     };
 
     const callbacks = {
-        EndCall: () => setVideoCall(false),
-        LocalMuteVideo: (muted) => {
-
-        },
-        // LocalMuteAudio: (muted) => console.log(muted),
+        EndCall: () => {
+            navigation.goBack();
+        }
     };
 
     const localBtnStyles = {
@@ -49,11 +47,7 @@ const VideoCallScreen = ({ navigation, route }) => {
     return (
         <SafeAreaView>
             <StatusBar backgroundColor='#6F4299' barStyle="light-content" />
-            {videoCall ?
                 <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} styleProps={styleProps} />
-                :
-                <Text onPress={() => setVideoCall(true)}>Start Call</Text>
-            }
         </SafeAreaView>
     );
 };

@@ -20,7 +20,7 @@ const BottomTab = ({ navigation }) => {
                 tabBarStyle: {
                     backgroundColor: '#FFF',
                     position: 'absolute',
-                    bottom: 20,
+                    bottom: 10,
                     marginHorizontal: 20,
                     height: 60,
                     borderRadius: 10,

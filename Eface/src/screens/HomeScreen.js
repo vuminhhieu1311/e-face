@@ -1,42 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
     View,
-    Text,
-    TouchableOpacity,
     Dimensions,
     StyleSheet,
     StatusBar,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { AuthContext } from '../utils/Context';
-import { useSelector } from 'react-redux';
-import createAgoraToken from '../api/createAgoraToken';
-import { showErrorToast } from '../components/ToastMessage';
 
 const HomeScreen = ({ navigation }) => {
-    const { logout } = useContext(AuthContext);
-    const { user, userToken } = useSelector(state => state.authReducer);
-
-    const startVideoCall = async () => {
-        try {
-            await createAgoraToken('test', userToken)
-                .then(([statusCode, data]) => {
-                    console.log(data);
-                    if (statusCode === 200) {
-                        navigation.navigate('Video Call', {
-                            agoraToken: data.agora_token,
-                        });
-                    }
-                }).catch(error => {
-                    console.log(error);
-                    showErrorToast("Can not retrieve Agora token.");
-                });
-        } catch (error) {
-            console.log(error);
-            showErrorToast("Can not retrieve Agora token.");
-        }
-    }
-
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#6F4299' barStyle="light-content" />
@@ -49,12 +20,6 @@ const HomeScreen = ({ navigation }) => {
                     style={styles.logo}
                     resizeMode="cover"
                 />
-                
-                <TouchableOpacity
-                    onPress={startVideoCall}
-                >
-                    <Text>Video Call</Text>
-                </TouchableOpacity>
             </View>
         </View>
     );
