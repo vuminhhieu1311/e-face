@@ -1,16 +1,17 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SettingsScreen from '../screens/SettingsScreen';
-import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import BottomTab from './BottomTab';
+import ChatScreen from '../screens/ChatScreen';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import VideoCallScreen from '../screens/VideoCallScreen';
 
 const Stack = createNativeStackNavigator();
 
-const SettingStack = ({ navigation }) => {
+const MainStack = () => {
     return (
         <Stack.Navigator
-            initialRouteName="Settings"
+            initialRouteName="BottomTab"
             screenOptions={{
                 headerStyle: {
                     backgroundColor: '#6F4299',
@@ -24,22 +25,35 @@ const SettingStack = ({ navigation }) => {
             }}
         >
             <Stack.Screen
-                name="SettingsScreen"
-                component={SettingsScreen}
+                name="BottomTab"
+                component={BottomTab}
                 options={{
-                    headerLeft: () => (
+                    headerShown: false,
+                }} />
+            <Stack.Screen
+                name="Chat"
+                component={ChatScreen}
+                options={({ route, navigation }) => ({
+                    title: route.params.userName,
+                    headerRight: () => (
                         <TouchableOpacity>
                             <Icon
-                                name="menu"
+                                name="videocam"
                                 size={25}
-                                onPress={() => { navigation.openDrawer(); }}
+                                onPress={() => { navigation.navigate('VideoCall'); }}
                                 color="#FFF"></Icon>
                         </TouchableOpacity>
                     )
+                })}
+            />
+            <Stack.Screen
+                name="VideoCall"
+                component={VideoCallScreen}
+                options={{
+                    headerShown: false,
                 }} />
-            <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
         </Stack.Navigator>
     );
 };
 
-export default SettingStack;
+export default MainStack;

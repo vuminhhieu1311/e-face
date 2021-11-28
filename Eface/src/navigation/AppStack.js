@@ -6,7 +6,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import VideoCallScreen from '../screens/VideoCallScreen';
 import SettingStack from './SettingStack';
-import BottomTab from './BottomTab';
+import MainStack from './MainStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -29,8 +29,8 @@ const AppStack = () => {
                 headerTintColor: '#FFF'
             }}>
             <Drawer.Screen
-                name="BottomTab"
-                component={BottomTab}
+                name="MainStack"
+                component={MainStack}
                 options={{
                     drawerIcon: ({ color }) => (
                         <Icon name="home-outline" size={22} color={color} />

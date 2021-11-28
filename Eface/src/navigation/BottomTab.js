@@ -1,14 +1,14 @@
 import React from 'react';
-import { Platform, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from '../screens/HomeScreen';
 import NotificationScreen from '../screens/NotificationScreen';
-import ChatScreen from '../screens/ChatScreen';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import LogoTitle from '../components/LogoTitle';
+import MessagesScreen from '../screens/MessagesScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -95,7 +95,7 @@ const BottomTab = ({ navigation }) => {
                                 borderRadius: 30,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                marginBottom: Platform.OS == "android" ? 60 : 30
+                                marginBottom: 60
                             }}>
                                 <Icon name="add" size={45} color="#FFF" />
                             </View>
@@ -119,15 +119,15 @@ const BottomTab = ({ navigation }) => {
                 }} />
 
             <Tab.Screen
-                name="Chat"
-                component={ChatScreen}
+                name="Messages"
+                component={MessagesScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <View style={{
                             position: 'absolute',
                             top: 5
                         }}>
-                            <Icon name="person" size={30} color={color} />
+                            <Icon name="chatbubbles" size={30} color={color} />
                         </View>
                     )
                 }} />
