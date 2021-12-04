@@ -11,7 +11,6 @@ import { screenHeight } from '../utils/Dimensions';
 const AuthLayout = (props) => {
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#6F4299' barStyle="light-content" />
             <Center style={styles.header}>
                 <Animatable.Image
                     animation="bounceIn"

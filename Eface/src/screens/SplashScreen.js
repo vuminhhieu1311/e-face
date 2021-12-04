@@ -14,8 +14,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const SplashScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#6F4299' barStyle="light-content" />
-
             <View style={styles.header}>
                 <Animatable.Image
                     animation="bounceIn"

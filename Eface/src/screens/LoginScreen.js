@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDeviceName } from 'react-native-device-info';
+import messaging from '@react-native-firebase/messaging';
 
 import AuthLayout from '../layouts/AuthLayout';
 import TextHeader from '../components/TextHeader';
@@ -26,12 +27,19 @@ const LoginScreen = ({ navigation }) => {
 
     const handleLogin = async () => {
         try {
-            await createToken(email, password, result)
+            const firebaseToken = await messaging().getToken();
+            
+            await createToken(email, password, result, firebaseToken)
                 .then(([statusCode, data]) => {
+                    console.log(data)
                     if (statusCode === 200 && data.user) {
+                        console.log(data.user);
                         login(data.user, data.token);
                     } else if (statusCode == 422) {
                         showErrorToast(data.errors.email[0]);
+                    } else {
+                        console.log(error);
+                        showErrorToast("Login Fail.");
                     }
                 }).catch(error => {
                     console.log(error);

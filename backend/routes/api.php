@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AgoraVideoController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\TokenController;
+use App\Http\Controllers\API\FCMController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

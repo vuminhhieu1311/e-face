@@ -20,7 +20,7 @@ const CustomDrawer = (props) => {
     const handleLogout = async () => {
         logout();
         try {
-            await deleteToken(userToken);
+            await deleteToken(userToken, user.firebase_token.id);
         } catch (error) {
             console.log(error);
             showErrorToast("Logout Fail.");

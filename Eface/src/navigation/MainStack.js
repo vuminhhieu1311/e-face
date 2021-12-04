@@ -9,6 +9,7 @@ import ChatScreen from '../screens/ChatScreen';
 import VideoCallScreen from '../screens/VideoCallScreen';
 import createAgoraToken from '../api/createAgoraToken';
 import { showErrorToast } from '../components/ToastMessage';
+import callUser from '../api/callUser';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,22 +19,33 @@ const MainStack = () => {
     const startVideoCall = async (navigation, partner) => {
         const channelName = `${user.id}-${partner.id}`;
         try {
-            await createAgoraToken(channelName, userToken)
+            await callUser(userToken, channelName, partner.id)
                 .then(([statusCode, data]) => {
-                    console.log(data);
-                    if (statusCode === 200) {
-                        navigation.navigate('VideoCall', {
-                            agoraToken: data.agora_token,
-                            channelName,
-                        });
+                    if (data.success <= 0) {
+                        showErrorToast("Can not call user.");
+                    } else {
+                        createAgoraToken(channelName, userToken)
+                            .then(([statusCode, data]) => {
+                                if (statusCode === 200) {
+                                    navigation.navigate('VideoCall', {
+                                        agoraToken: data.agora_token,
+                                        channelName,
+                                    });
+                                } else {
+                                    showErrorToast("Can not start video call.");
+                                }
+                            }).catch(error => {
+                                console.log(error);
+                                showErrorToast("Can not start video call.");
+                            });
                     }
                 }).catch(error => {
                     console.log(error);
-                    showErrorToast("Can not retrieve Agora token.");
+                    showErrorToast("Can not call user.");
                 });
         } catch (error) {
             console.log(error);
-            showErrorToast("Can not retrieve Agora token.");
+            showErrorToast("Can not start video call.");
         }
     }
 

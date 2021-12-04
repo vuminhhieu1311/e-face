@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
+
 import getFriends from '../api/getFriends';
+import { showErrorToast } from '../components/ToastMessage';
 import {
     Container,
     Card,
@@ -32,11 +34,11 @@ const MessagesScreen = ({ navigation }) => {
                     }
                 }).catch(error => {
                     console.log(error);
-                    showErrorToast("Login Fail.");
+                    showErrorToast("Can not fetch data.");
                 });
         } catch (error) {
             console.log(error);
-            showErrorToast("Login Fail.");
+            showErrorToast("Can not fetch data.");
         }
     }
 

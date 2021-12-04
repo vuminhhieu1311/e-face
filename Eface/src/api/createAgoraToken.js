@@ -1,7 +1,6 @@
 import { API_URL } from "../utils/Config";
 
 const createAgoraToken = async (channelName, userToken) => {
-    console.log(channelName)
     return await fetch(`${API_URL}agora/token`, {
         method: 'POST',
         headers: {

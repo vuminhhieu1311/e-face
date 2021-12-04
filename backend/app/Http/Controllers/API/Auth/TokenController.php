@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTokenRequest;
+use App\Models\FirebaseToken;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,6 +23,13 @@ class TokenController extends Controller
             ]);
         }
 
+        // Save firebase token sent from client
+        $firebaseToken = FirebaseToken::create([
+            'user_id' => $user->id,
+            'value' => $request->firebase_token,
+        ]);
+        $user->firebase_token = $firebaseToken;
+
         return response()->json([
             'user' => $user,
             'token' => $user->createToken($request->device_name)->plainTextToken
@@ -31,6 +39,8 @@ class TokenController extends Controller
     public function destroy(Request $request)
     {
         if ($request->user()->tokens()->delete()) {
+            FirebaseToken::destroy($request->firebase_token_id);
+
             return response()->json([
                 'message' => 'Revoke tokens successfully.',
             ], 200);

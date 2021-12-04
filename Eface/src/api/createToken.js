@@ -1,6 +1,6 @@
 import { API_URL } from "../utils/Config";
 
-const createToken = async (email, password, deviceName) => {
+const createToken = async (email, password, deviceName, firebaseToken) => {
     return await fetch(`${API_URL}auth/token`, {
         method: 'POST',
         headers: {
@@ -11,6 +11,7 @@ const createToken = async (email, password, deviceName) => {
             email,
             password,
             device_name: deviceName,
+            firebase_token: firebaseToken,
         })
     }).then(response => {
         const statusCode = response.status;

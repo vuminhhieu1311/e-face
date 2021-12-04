@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateAgoraTokenRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
-use App\Events\MakeAgoraCall;
 use Illuminate\Support\Facades\Auth;
 
 class AgoraVideoController extends Controller
@@ -29,9 +29,41 @@ class AgoraVideoController extends Controller
 
     public function callUser(Request $request)
     {
-        $data['userToCall'] = $request->user_to_call;
-        $data['channelName'] = $request->channel_name;
-        $data['from'] = Auth::id();
-        broadcast(new MakeAgoraCall($data))->toOthers();
+        $partner = User::findOrFail($request->partner_id);
+        $firebaseTokens = $partner->firebaseTokens->pluck('value');
+
+        return $this->sendNotification($firebaseTokens, $request->channel_name);
+    }
+
+    private function sendNotification($firebaseTokens, $channelName)
+    {
+        $caller = Auth::user();
+        $message = [
+            'registration_ids' => $firebaseTokens,
+            'data' => [
+                'channel_name' => $channelName,
+                'from_id' => $caller->id,
+                'from_name' => $caller->name,
+                'from_number' => $caller->profile->phone_number,
+            ]
+        ];
+        $messageString = json_encode($message);
+
+        $headers = [
+            'Authorization: key=' . env('FIREBASE_API_KEY'),
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $messageString);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return $response;
     }
 }

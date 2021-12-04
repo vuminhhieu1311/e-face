@@ -12,103 +12,103 @@ BackgroundTimer.start();
 const isIOS = Platform.OS === 'ios';
 
 const HomeScreen = ({ navigation }) => {
-    const [callId, setCallId] = useState('');
-    const { user, userToken } = useSelector(state => state.authReducer);
+    // const [callId, setCallId] = useState('');
+    // const { user, userToken } = useSelector(state => state.authReducer);
 
-    const setup = () => {
-        const options = {
-            ios: {
-                appName: 'Eface',
-                imageName: 'sim_icon',
-                supportsVideo: true,
-                maximumCallGroups: '1',
-                maximumCallsPerCallGroup: '1',
-            },
-            android: {
-                alertTitle: 'Permissions required',
-                alertDescription: 'This application needs to access your phone accounts',
-                cancelButton: 'Cancel',
-                okButton: 'ok',
-                imageName: 'sim_icon',
-            },
-        };
+    // const setup = () => {
+    //     const options = {
+    //         ios: {
+    //             appName: 'Eface',
+    //             imageName: 'sim_icon',
+    //             supportsVideo: true,
+    //             maximumCallGroups: '1',
+    //             maximumCallsPerCallGroup: '1',
+    //         },
+    //         android: {
+    //             alertTitle: 'Permissions required',
+    //             alertDescription: 'This application needs to access your phone accounts',
+    //             cancelButton: 'Cancel',
+    //             okButton: 'ok',
+    //             imageName: 'sim_icon',
+    //         },
+    //     };
 
-        try {
-            RNCallKeep.setup(options);
-            RNCallKeep.setAvailable(true);
-        } catch (err) {
-            console.error('Initialize CallKeep Error:', err.message);
-        }
-    }
+    //     try {
+    //         RNCallKeep.setup(options);
+    //         RNCallKeep.setAvailable(true);
+    //     } catch (err) {
+    //         console.error('Initialize CallKeep Error:', err.message);
+    //     }
+    // }
 
-    const displayIncomingCallNow = () => {
-        console.log("Event: Display Incoming Call");
+    // const displayIncomingCallNow = () => {
+    //     console.log("Event: Display Incoming Call");
 
-        const callUUID = uuid();
-        setCallId(callUUID);
+    //     const callUUID = uuid();
+    //     setCallId(callUUID);
 
-        if (isIOS) {
-            RNCallKeep.displayIncomingCall(callUUID, '11111', 'HieuVM', 'generic', true);
-        } else {
-            RNCallKeep.displayIncomingCall(callUUID, 'HieuVM', '11111', 'generic', true);
-        }
+    //     if (isIOS) {
+    //         RNCallKeep.displayIncomingCall(callUUID, '11111', 'HieuVM', 'generic', true);
+    //     } else {
+    //         RNCallKeep.displayIncomingCall(callUUID, 'HieuVM', '11111', 'generic', true);
+    //     }
         
-        BackgroundTimer.setTimeout(() => {
-            RNCallKeep.endCall(callUUID);
-            RNCallKeep.reportEndCallWithUUID(callUUID, CK_CONSTANTS.END_CALL_REASONS.MISSED);
-        }, 10000);
-    };
+    //     BackgroundTimer.setTimeout(() => {
+    //         RNCallKeep.endCall(callUUID);
+    //         RNCallKeep.reportEndCallWithUUID(callUUID, CK_CONSTANTS.END_CALL_REASONS.MISSED);
+    //     }, 10000);
+    // };
 
-    const answerCall = ({ callUUID }) => {
-        console.log("Event: Answer Call", callUUID);
-        RNCallKeep.endCall(callUUID);
-        startVideoCall();
-    };
-
-
-    const endCall = ({ callUUID }) => {
-        setCallId('');
-        console.log("Event: End Call", callUUID);
-    };
+    // const answerCall = ({ callUUID }) => {
+    //     console.log("Event: Answer Call", callUUID);
+    //     RNCallKeep.endCall(callUUID);
+    //     startVideoCall();
+    // };
 
 
-    const startVideoCall = async () => {
-        // const channelName = `${user.id}-${partner.id}`;
-        const channelName = 'test';
-        try {
-            await createAgoraToken(channelName, userToken)
-                .then(([statusCode, data]) => {
-                    console.log(data);
-                    if (statusCode === 200) {
-                        navigation.navigate('VideoCall', {
-                            agoraToken: data.agora_token,
-                            channelName,
-                        });
-                    }
-                }).catch(error => {
-                    console.log(error);
-                    showErrorToast("Can not retrieve Agora token.");
-                });
-        } catch (error) {
-            console.log(error);
-            showErrorToast("Can not retrieve Agora token.");
-        }
-    }
+    // const endCall = ({ callUUID }) => {
+    //     setCallId('');
+    //     console.log("Event: End Call", callUUID);
+    // };
 
-    useEffect(() => {
-        setup();
-        RNCallKeep.addEventListener('answerCall', answerCall);
-        RNCallKeep.addEventListener('endCall', endCall);
 
-        return () => {
-            RNCallKeep.removeEventListener('answerCall', answerCall);
-            RNCallKeep.removeEventListener('endCall', endCall);
-        }
-    }, []);
+    // const startVideoCall = async () => {
+    //     // const channelName = `${user.id}-${partner.id}`;
+    //     const channelName = 'test';
+    //     try {
+    //         await createAgoraToken(channelName, userToken)
+    //             .then(([statusCode, data]) => {
+    //                 console.log(data);
+    //                 if (statusCode === 200) {
+    //                     navigation.navigate('VideoCall', {
+    //                         agoraToken: data.agora_token,
+    //                         channelName,
+    //                     });
+    //                 }
+    //             }).catch(error => {
+    //                 console.log(error);
+    //                 showErrorToast("Can not retrieve Agora token.");
+    //             });
+    //     } catch (error) {
+    //         console.log(error);
+    //         showErrorToast("Can not retrieve Agora token.");
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     setup();
+    //     RNCallKeep.addEventListener('answerCall', answerCall);
+    //     RNCallKeep.addEventListener('endCall', endCall);
+
+    //     return () => {
+    //         RNCallKeep.removeEventListener('answerCall', answerCall);
+    //         RNCallKeep.removeEventListener('endCall', endCall);
+    //     }
+    // }, []);
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={displayIncomingCallNow}>
+            <TouchableOpacity>
                 <Text>Display incoming call now</Text>
             </TouchableOpacity>
         </View>

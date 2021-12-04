@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Text } from 'native-base';
-import AgoraUIKit, { VideoRenderMode, layout } from 'agora-rn-uikit';
-import { SafeAreaView, StatusBar } from 'react-native';
+import React from 'react';
+import AgoraUIKit, { VideoRenderMode } from 'agora-rn-uikit';
 
 import { screenHeight, screenWidth } from '../utils/Dimensions';
 import { AGORA_APP_ID } from '../utils/Config';
 
 const VideoCallScreen = ({ navigation, route }) => {
-    const [videoCall, setVideoCall] = useState(true);
-
     const rtcProps = {
         appId: AGORA_APP_ID,
         channel: route.params?.channelName,
         token: route.params?.agoraToken,
-        // layout: layout.pin,
     };
 
     const callbacks = {
@@ -45,10 +40,7 @@ const VideoCallScreen = ({ navigation, route }) => {
     }
 
     return (
-        <SafeAreaView>
-            <StatusBar backgroundColor='#6F4299' barStyle="light-content" />
-                <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} styleProps={styleProps} />
-        </SafeAreaView>
+        <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} styleProps={styleProps} />
     );
 };
 

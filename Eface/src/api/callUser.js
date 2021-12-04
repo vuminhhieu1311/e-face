@@ -1,15 +1,16 @@
 import { API_URL } from "../utils/Config";
 
-const deleteToken = async (userToken, firebaseTokenID) => {
-    return await fetch(`${API_URL}auth/token`, {
-        method: 'DELETE',
+const callUser = async (userToken, channelName, partnerID) => {
+    return await fetch(`${API_URL}agora/call-user`, {
+        method: 'POST',
         headers: {
             Accept: 'application/json',
-            'Authorization': `Bearer ${userToken}`,
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
         },
         body: JSON.stringify({
-            firebase_token_id: firebaseTokenID,
+            channel_name: channelName,
+            partner_id: partnerID,
         })
     }).then(response => {
         const statusCode = response.status;
@@ -18,4 +19,4 @@ const deleteToken = async (userToken, firebaseTokenID) => {
     });
 };
 
-export default deleteToken;
+export default callUser;
