@@ -33,4 +33,14 @@ class MakeAgoraCall implements ShouldBroadcast
     {
         return new PresenceChannel('agora-online-channel');
     }
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        return 'incoming_call';
+    }
 }

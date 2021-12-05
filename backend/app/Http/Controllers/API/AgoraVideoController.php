@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\MakeAgoraCall;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateAgoraTokenRequest;
 use App\Models\User;
@@ -29,10 +30,21 @@ class AgoraVideoController extends Controller
 
     public function callUser(Request $request)
     {
-        $partner = User::findOrFail($request->partner_id);
-        $firebaseTokens = $partner->firebaseTokens->pluck('value');
+        $data['to'] = $request->partner_id;
+        $data['channel_name'] = $request->channel_name;
+        $data['from_name'] = Auth::user()->name;
+        $data['from_number'] = Auth::user()->profile->phone_number;
 
-        return $this->sendNotification($firebaseTokens, $request->channel_name);
+        $event = new MakeAgoraCall($data);
+        broadcast($event)->toOthers();
+
+        return response()->json([
+            'calling_event' => $event,
+        ], 200);
+
+//        $partner = User::findOrFail($request->partner_id);
+//        $firebaseTokens = $partner->firebaseTokens->pluck('value');
+//        return $this->sendNotification($firebaseTokens, $request->channel_name);
     }
 
     private function sendNotification($firebaseTokens, $channelName)

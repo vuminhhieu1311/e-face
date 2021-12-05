@@ -21,9 +21,8 @@ const MainStack = () => {
         try {
             await callUser(userToken, channelName, partner.id)
                 .then(([statusCode, data]) => {
-                    if (data.success <= 0) {
-                        showErrorToast("Can not call user.");
-                    } else {
+                    console.log(data)
+                    if (statusCode === 200) {
                         createAgoraToken(channelName, userToken)
                             .then(([statusCode, data]) => {
                                 if (statusCode === 200) {
@@ -38,6 +37,8 @@ const MainStack = () => {
                                 console.log(error);
                                 showErrorToast("Can not start video call.");
                             });
+                    } else {
+                        showErrorToast("Can not call user.");
                     }
                 }).catch(error => {
                     console.log(error);

@@ -17,6 +17,7 @@ import { AuthContext } from '../utils/Context';
 import createToken from '../api/createToken';
 import { showErrorToast } from '../components/ToastMessage';
 import FormInput from '../components/forms/FormInput';
+import isIOS from '../utils/isIOS';
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -27,11 +28,9 @@ const LoginScreen = ({ navigation }) => {
 
     const handleLogin = async () => {
         try {
-            const firebaseToken = await messaging().getToken();
-            
+            const firebaseToken = !isIOS ? await messaging().getToken() : '';
             await createToken(email, password, result, firebaseToken)
                 .then(([statusCode, data]) => {
-                    console.log(data)
                     if (statusCode === 200 && data.user) {
                         console.log(data.user);
                         login(data.user, data.token);

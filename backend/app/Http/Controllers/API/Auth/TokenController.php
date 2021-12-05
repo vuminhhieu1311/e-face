@@ -23,11 +23,14 @@ class TokenController extends Controller
             ]);
         }
 
-        // Save firebase token sent from client
-        $firebaseToken = FirebaseToken::create([
-            'user_id' => $user->id,
-            'value' => $request->firebase_token,
-        ]);
+        $firebaseToken = null;
+        if ($request->firebase_token) {
+            // Save firebase token sent from client
+            $firebaseToken = FirebaseToken::create([
+                'user_id' => $user->id,
+                'value' => $request->firebase_token,
+            ]);
+        }
         $user->firebase_token = $firebaseToken;
 
         return response()->json([
@@ -39,7 +42,9 @@ class TokenController extends Controller
     public function destroy(Request $request)
     {
         if ($request->user()->tokens()->delete()) {
-            FirebaseToken::destroy($request->firebase_token_id);
+            if ($request->firebase_token_id) {
+                FirebaseToken::destroy($request->firebase_token_id);
+            }
 
             return response()->json([
                 'message' => 'Revoke tokens successfully.',
