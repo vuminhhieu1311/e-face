@@ -1,7 +1,6 @@
 import { API_URL } from "../utils/Config";
 
 const deleteToken = async (userToken, firebaseTokenID = null) => {
-    console.log(firebaseTokenID)
     return await fetch(`${API_URL}auth/token`, {
         method: 'DELETE',
         headers: {
