@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Events\MakeAgoraCall;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CallUserRequest;
 use App\Http\Requests\CreateAgoraTokenRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class AgoraVideoController extends Controller
         ], 200);
     }
 
-    public function callUser(Request $request)
+    public function callUser(CallUserRequest $request)
     {
         $data['to'] = $request->partner_id;
         $data['channel_name'] = $request->channel_name;
