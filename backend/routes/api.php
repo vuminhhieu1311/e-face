@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/agora/call-user', [AgoraVideoController::class, 'callUser']);
     Route::resources([
         'users' => UserController::class,
+        'rooms' => \App\Http\Controllers\API\RoomController::class,
     ]);
 
     /* =================================FRIEND=====================================*/

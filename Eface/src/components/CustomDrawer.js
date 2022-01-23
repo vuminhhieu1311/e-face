@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../utils/Context';
 import { useSelector } from 'react-redux';
 import { showErrorToast } from '../components/ToastMessage';
-import deleteToken from '../api/deleteToken';
+import deleteToken from '../api/auth/deleteToken';
 
 const CustomDrawer = (props) => {
     const { logout } = useContext(AuthContext);

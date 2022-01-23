@@ -7,9 +7,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import BottomTab from './BottomTab';
 import ChatScreen from '../screens/ChatScreen';
 import VideoCallScreen from '../screens/VideoCallScreen';
-import createAgoraToken from '../api/createAgoraToken';
+import createAgoraToken from '../api/video-call/createAgoraToken';
 import { showErrorToast } from '../components/ToastMessage';
-import callUser from '../api/callUser';
+import callUser from '../api/video-call/callUser';
+import { GROUP } from '../enums/room/type';
 
 const Stack = createNativeStackNavigator();
 
@@ -74,18 +75,21 @@ const MainStack = () => {
             <Stack.Screen
                 name="Chat"
                 component={ChatScreen}
-                options={({ route, navigation }) => ({
-                    title: route.params.user.name,
-                    headerRight: () => (
-                        <TouchableOpacity>
-                            <Icon
-                                name="videocam"
-                                size={25}
-                                onPress={() => { startVideoCall(navigation, route.params.user) }}
-                                color="#FFF"></Icon>
-                        </TouchableOpacity>
-                    )
-                })}
+                options={({ route, navigation }) => {
+                    const room = route.params.room;
+                    return {
+                        title: room.type === GROUP ? room.name : room.users[0].name,
+                        headerRight: () => (
+                            <TouchableOpacity>
+                                <Icon
+                                    name="videocam"
+                                    size={25}
+                                    onPress={() => { startVideoCall(navigation, route.params.user) }}
+                                    color="#FFF"></Icon>
+                            </TouchableOpacity>
+                        )
+                    }
+                }}
             />
             <Stack.Screen
                 name="VideoCall"

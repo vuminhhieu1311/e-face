@@ -47,7 +47,7 @@ export const UserInfoText = styled.View`
     margin-bottom: 5px;
 `;
 
-export const UserName = styled.Text`
+export const RoomName = styled.Text`
     font-size: 14px;
     font-weight: bold;
 `;

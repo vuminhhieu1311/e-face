@@ -3,7 +3,7 @@ import { Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native
 import { v4 as uuid } from 'uuid';
 import RNCallKeep, { CONSTANTS as CK_CONSTANTS }  from 'react-native-callkeep';
 import BackgroundTimer from 'react-native-background-timer';
-import createAgoraToken from '../api/createAgoraToken';
+import createAgoraToken from '../api/video-call/createAgoraToken';
 import { showErrorToast } from '../components/ToastMessage';
 import { useSelector } from 'react-redux';
 

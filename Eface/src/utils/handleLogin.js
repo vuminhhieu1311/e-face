@@ -1,4 +1,4 @@
-import createToken from '../api/createToken';
+import createToken from '../api/auth/createToken';
 import { showErrorToast } from '../components/ToastMessage';
 
 const handleLogin = async (email, password, deviceName) => {

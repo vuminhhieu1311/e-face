@@ -12,9 +12,9 @@ import AuthLayout from '../layouts/AuthLayout';
 import TextHeader from '../components/TextHeader';
 import VioletButton from '../components/buttons/VioletButton';
 import WhiteButton from '../components/buttons/WhiteButton';
-import registerUser from '../api/registerUser';
+import registerUser from '../api/auth/registerUser';
 import { showErrorToast } from '../components/ToastMessage';
-import createToken from '../api/createToken';
+import createToken from '../api/auth/createToken';
 import { AuthContext } from '../utils/Context';
 import FormInput from '../components/forms/FormInput';
 

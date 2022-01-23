@@ -48,8 +48,8 @@ const Main = () => {
         } catch (err) {
             console.log(err);
         }
-        console.log('user: ', user);
-        console.log('user token: ', userToken);
+        console.log('Auth user: ', user);
+        console.log('User token: ', userToken);
         dispatch(setUserData(user, userToken));
         setLoading(false);
     };

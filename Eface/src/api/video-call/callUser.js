@@ -1,17 +1,16 @@
-import { API_URL } from "../utils/Config";
+import { API_URL } from "../../utils/Config";
 
-const createToken = async (email, password, deviceName, firebaseToken) => {
-    return await fetch(`${API_URL}auth/token`, {
+const callUser = async (userToken, channelName, partnerID) => {
+    return await fetch(`${API_URL}agora/call-user`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
         },
         body: JSON.stringify({
-            email,
-            password,
-            device_name: deviceName,
-            firebase_token: firebaseToken,
+            channel_name: channelName,
+            partner_id: partnerID,
         })
     }).then(response => {
         const statusCode = response.status;
@@ -20,4 +19,4 @@ const createToken = async (email, password, deviceName, firebaseToken) => {
     });
 };
 
-export default createToken;
+export default callUser;

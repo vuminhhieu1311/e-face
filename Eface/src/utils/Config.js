@@ -1,8 +1,10 @@
-// export const API_URL = 'http://192.168.95.87:8000/api/'; // Du lieu di dong
+const IP = '192.168.209.87'; // Du lieu di dong
 
-// export const API_URL = 'http://192.168.16.101:8000/api/'; // Hieu Truong Wifi
+// const IP = '192.168.16.101'; // Hieu Truong Wifi
 
-export const API_URL = 'http://192.168.1.7:8000/api/'; // Vu Minh Hieu Wifi
+// const IP = '192.168.1.7'; // Vu Minh Hieu Wifi
+
+export const API_URL = `http://${IP}:8000/api/`;
 
 export const AGORA_APP_ID = '1aed775f74034be7a1c59605cdef13b7';
 
@@ -10,4 +12,4 @@ export const PUSHER_APP_KEY = '939db643419251b36b16';
 
 export const PUSHER_APP_CLUSTER = 'ap1';
 
-export const PUSHER_AUTH_ENDPOINT = 'http://192.168.16.101:8000/broadcasting/auth';
+export const PUSHER_AUTH_ENDPOINT = `http://${IP}:8000/broadcasting/auth`;

@@ -24,7 +24,7 @@ class CallUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'to' => 'required',
+            'partner_id' => 'required',
             'channel_name' => 'required',
         ];
     }

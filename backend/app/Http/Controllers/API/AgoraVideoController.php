@@ -6,8 +6,6 @@ use App\Events\MakeAgoraCall;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CallUserRequest;
 use App\Http\Requests\CreateAgoraTokenRequest;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
 use Illuminate\Support\Facades\Auth;
 

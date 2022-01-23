@@ -1,17 +1,17 @@
-import { API_URL } from "../utils/Config";
+import { API_URL } from "../../utils/Config";
 
-const registerUser = async (name, email, password, passwordConfirmation) => {
-    return await fetch(`${API_URL}auth/register`, {
+const createToken = async (email, password, deviceName, firebaseToken) => {
+    return await fetch(`${API_URL}auth/token`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            name,
             email,
             password,
-            password_confirmation: passwordConfirmation,
+            device_name: deviceName,
+            firebase_token: firebaseToken,
         })
     }).then(response => {
         const statusCode = response.status;
@@ -20,4 +20,4 @@ const registerUser = async (name, email, password, passwordConfirmation) => {
     });
 };
 
-export default registerUser;
+export default createToken;

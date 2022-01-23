@@ -14,7 +14,7 @@ import TextHeader from '../components/TextHeader';
 import VioletButton from '../components/buttons/VioletButton';
 import WhiteButton from '../components/buttons/WhiteButton';
 import { AuthContext } from '../utils/Context';
-import createToken from '../api/createToken';
+import createToken from '../api/auth/createToken';
 import { showErrorToast } from '../components/ToastMessage';
 import FormInput from '../components/forms/FormInput';
 import isIOS from '../utils/isIOS';

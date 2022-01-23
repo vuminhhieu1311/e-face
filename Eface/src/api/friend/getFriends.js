@@ -1,4 +1,4 @@
-import { API_URL } from "../utils/Config";
+import { API_URL } from "../../utils/Config";
 
 const getFriends = async (userToken) => {
     return await fetch(`${API_URL}users`, {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import getFriends from '../api/getFriends';
+import getFriends from '../api/friend/getFriends';
 import { showErrorToast } from '../components/ToastMessage';
 import {
     Container,
@@ -11,15 +11,17 @@ import {
     UserImgWrapper,
     UserImg,
     UserInfoText,
-    UserName,
+    RoomName,
     PostTime,
     MessageText,
     TextSection,
 } from '../assets/styles/MessagesStyles';
+import getRooms from '../api/chat-room/getRooms';
+import { GROUP } from '../enums/room/type';
 
 const MessagesScreen = ({ navigation }) => {
     const { user, userToken } = useSelector(state => state.authReducer);
-    const [friends, setFriends] = useState([]);
+    const [rooms, setRooms] = useState([]);
 
     useEffect(() => {
         getFriendList();
@@ -27,10 +29,11 @@ const MessagesScreen = ({ navigation }) => {
 
     const getFriendList = async () => {
         try {
-            await getFriends(userToken)
+            await getRooms(userToken)
                 .then(([statusCode, data]) => {
-                    if (statusCode === 200 && data.users) {
-                        setFriends(data.users);
+                    if (statusCode === 200 && data.rooms) {
+                        setRooms(data.rooms);
+                        console.log(data.rooms)
                     }
                 }).catch(error => {
                     console.log(error);
@@ -45,14 +48,14 @@ const MessagesScreen = ({ navigation }) => {
     return (
         <Container>
             <FlatList
-                data={friends}
+                data={rooms}
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Card
                         onPress={() =>
                             navigation.navigate('Chat', {
-                                user: item,
+                                room: item,
                             })
                         }>
                         <UserInfo>
@@ -61,7 +64,9 @@ const MessagesScreen = ({ navigation }) => {
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>
-                                    <UserName>{item.name}</UserName>
+                                    <RoomName>
+                                        {item.type === GROUP ? item.name : item.users[0].name}
+                                    </RoomName>
                                     <PostTime>1 day ago</PostTime>
                                 </UserInfoText>
                                 <MessageText>Hey there, this is my test. Hey there, this is my test.</MessageText>

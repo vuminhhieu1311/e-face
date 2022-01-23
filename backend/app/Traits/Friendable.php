@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\Friend\Status;
 use App\Models\Friend;
 use App\Models\User;
 
@@ -11,7 +12,7 @@ trait Friendable
     {
         $friends = [];
         $f1 = Friend::where([
-            'status' => config('friend_request.accepted'),
+            'status' => Status::ACCEPTED,
             'requester_id' => $this->id,
         ])->get();
         foreach ($f1 as $friend) {
@@ -19,7 +20,7 @@ trait Friendable
         }
 
         $f2 = Friend::where([
-            'status' => config('friend_request.accepted'),
+            'status' => Status::ACCEPTED,
             'requested_id' => $this->id,
         ])->get();
         foreach ($f2 as $friend) {
@@ -46,7 +47,7 @@ trait Friendable
     public function pendingRequests()
     {
         $friendIds = Friend::where([
-            'status' => config('friend_request.pending'),
+            'status' => Status::PENDING,
             'requested_id' => $this->id,
         ])->get();
         $pendingFriends = [];
@@ -75,7 +76,7 @@ trait Friendable
     {
         $users = [];
         $friendships = Friend::where([
-            'status' => config('friend_request.pending'),
+            'status' => Status::PENDING,
             'requester_id' => $this->id,
         ])->get();
         foreach ($friendships as $friend) {
@@ -126,7 +127,7 @@ trait Friendable
             ])->first();
             if ($friendship) {
                 $friendship->update([
-                    'status' => config('friend_request.accepted'),
+                    'status' => Status::ACCEPTED,
                 ]);
 
                 return $friendship;
