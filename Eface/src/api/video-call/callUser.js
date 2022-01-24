@@ -15,6 +15,7 @@ const callUser = async (userToken, channelName, partnerID) => {
     }).then(response => {
         const statusCode = response.status;
         const data = response.json();
+        
         return Promise.all([statusCode, data]);
     });
 };

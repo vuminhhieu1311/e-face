@@ -11,6 +11,7 @@ const getRooms = async (userToken) => {
     }).then(response => {
         const statusCode = response.status;
         const data = response.json();
+        
         return Promise.all([statusCode, data]);
     });
 };

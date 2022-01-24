@@ -14,6 +14,7 @@ const deleteToken = async (userToken, firebaseTokenID = null) => {
     }).then(response => {
         const statusCode = response.status;
         const data = response.json();
+        
         return Promise.all([statusCode, data]);
     });
 };

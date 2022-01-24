@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Pusher from 'pusher-js/react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AgoraUIKit from 'agora-rn-uikit';
 import { v4 as uuid } from 'uuid';
 import RNCallKeep, { CONSTANTS as CK_CONSTANTS } from 'react-native-callkeep';
@@ -14,6 +14,7 @@ import initPusher from '../utils/Pusher';
 import { AGORA_APP_ID } from '../utils/Config';
 import isIOS from '../utils/isIOS';
 import DrawerStack from './DrawerStack';
+import { setPusher } from '../redux/actions';
 
 var channelName = '';
 
@@ -21,6 +22,7 @@ const AppStack = () => {
     const [videoCall, setVideoCall] = useState(false);
     const [agoraToken, setAgoraToken] = useState('');
     const { user, userToken } = useSelector(state => state.authReducer);
+    const dispatch = useDispatch();
 
     // Set up Agora UI Kit
     const rtcProps = {
@@ -107,6 +109,7 @@ const AppStack = () => {
     useEffect(() => {
         Pusher.logToConsole = true;
         const pusher = initPusher(userToken);
+        dispatch(setPusher(pusher));
         var channel = pusher.subscribe('presence-agora-online-channel');
 
         channel.bind('incoming_call', (event) => {

@@ -16,6 +16,7 @@ const createToken = async (email, password, deviceName, firebaseToken) => {
     }).then(response => {
         const statusCode = response.status;
         const data = response.json();
+        
         return Promise.all([statusCode, data]);
     });
 };

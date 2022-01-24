@@ -1,18 +1,17 @@
 import { API_URL } from "../../utils/Config";
 
-const registerUser = async (name, email, password, passwordConfirmation) => {
-    return await fetch(`${API_URL}auth/register`, {
+const createMessage = async (userToken, roomID, content) => {
+    return await fetch(`${API_URL}messages`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
         },
         body: JSON.stringify({
-            name,
-            email,
-            password,
-            password_confirmation: passwordConfirmation,
-        })
+            room_id: roomID,
+            content,
+        }),
     }).then(response => {
         const statusCode = response.status;
         const data = response.json();
@@ -21,4 +20,4 @@ const registerUser = async (name, email, password, passwordConfirmation) => {
     });
 };
 
-export default registerUser;
+export default createMessage;

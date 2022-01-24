@@ -4,6 +4,8 @@ use App\Http\Controllers\API\AgoraVideoController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\FriendController;
+use App\Http\Controllers\API\MessageController;
+use App\Http\Controllers\API\RoomController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,7 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/agora/call-user', [AgoraVideoController::class, 'callUser']);
     Route::resources([
         'users' => UserController::class,
-        'rooms' => \App\Http\Controllers\API\RoomController::class,
+        'rooms' => RoomController::class,
+        'messages' => MessageController::class,
     ]);
 
     /* =================================FRIEND=====================================*/

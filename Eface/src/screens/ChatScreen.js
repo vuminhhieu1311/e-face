@@ -1,13 +1,25 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
+import { useSelector } from 'react-redux';
+import Pusher from 'pusher-js/react-native';
 import { Bubble, GiftedChat, InputToolbar, Send, Time } from 'react-native-gifted-chat';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const ChatScreen = () => {
+import createMessage from '../api/chat-room/createMessage';
+
+const ChatScreen = ({ route }) => {
+    const { pusher, userToken } = useSelector(state => state.authReducer);
     const [messages, setMessages] = useState([]);
+    const room = route.params?.room;
 
     useEffect(() => {
+        Pusher.logToConsole = true;
+        var channel = pusher.subscribe(`presence-chat-room.${room.id}`);
+        channel.bind('new_message', (event) => {
+            console.log(event)
+        });
+
         setMessages([
             {
                 _id: 1,
@@ -92,7 +104,20 @@ const ChatScreen = () => {
         ]);
     }, []);
 
-    const onSend = useCallback((messages = []) => {
+    const onSend = useCallback(async (messages = []) => {
+        console.log(messages);
+        try {
+            await createMessage(userToken, room.id, messages[0].text)
+                .then(([statusCode, data]) => {
+                    console.log(data);
+                }).catch(error => {
+                    console.log(error);
+                    showErrorToast("Can not send message.");
+                });
+        } catch (error) {
+            console.log(error);
+            showErrorToast("Can not send message.");
+        }
         setMessages((previousMessages) =>
             GiftedChat.append(previousMessages, messages),
         );

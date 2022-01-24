@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Room;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -14,5 +16,19 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('agora-online-channel', function ($user) {
-    return ['id' => $user->id, 'name' => $user->name];
+    return [
+        'id' => $user->id,
+        'name' => $user->name
+    ];
+});
+
+Broadcast::channel('chat-room.{room}', function ($user, Room $room) {
+    if ($room->hasUser($user)) {
+        return [
+            'id' => $user->id,
+            'name' => $user->name
+        ];
+    }
+
+    return false;
 });

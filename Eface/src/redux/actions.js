@@ -1,4 +1,5 @@
 export const SET_USER_DATA = 'SET_USER_DATA';
+export const SET_PUSHER = 'SET_PUSHER';
 export const LOGOUT = 'LOGOUT';
 
 export const setUserData = (user, userToken) => dispatch => {
@@ -7,6 +8,15 @@ export const setUserData = (user, userToken) => dispatch => {
         payload: {
             user,
             userToken,
+        },
+    });
+};
+
+export const setPusher = (pusher) => dispatch => {
+    dispatch({
+        type: SET_PUSHER,
+        payload: {
+            pusher,
         },
     });
 };

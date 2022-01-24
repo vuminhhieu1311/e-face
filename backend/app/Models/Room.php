@@ -24,4 +24,11 @@ class Room extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public function hasUser($user)
+    {
+        return $this->users()
+            ->where('user_id', $user->id)
+            ->exists();
+    }
 }
