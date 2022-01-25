@@ -22,7 +22,9 @@ class Room extends Model
 
     public function messages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class)
+            ->where('is_active', true)
+            ->orderBy('created_at', 'desc');
     }
 
     public function hasUser($user)

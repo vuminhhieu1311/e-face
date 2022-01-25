@@ -1,17 +1,13 @@
 import { API_URL } from "../../utils/Config";
 
-const createMessage = async (userToken, roomID, text) => {
-    return await fetch(`${API_URL}messages`, {
-        method: 'POST',
+const getMessages = async (userToken, roomID) => {
+    return await fetch(`${API_URL}rooms/${roomID}/messages`, {
+        method: 'GET',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${userToken}`,
         },
-        body: JSON.stringify({
-            room_id: roomID,
-            text,
-        }),
     }).then(response => {
         const statusCode = response.status;
         const data = response.json();
@@ -20,4 +16,4 @@ const createMessage = async (userToken, roomID, text) => {
     });
 };
 
-export default createMessage;
+export default getMessages;

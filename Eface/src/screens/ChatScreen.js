@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import createMessage from '../api/chat-room/createMessage';
+import getMessages from '../api/chat-room/getMessages';
 
 const ChatScreen = ({ route }) => {
     const { pusher, userToken } = useSelector(state => state.authReducer);
@@ -16,100 +17,41 @@ const ChatScreen = ({ route }) => {
     useEffect(() => {
         Pusher.logToConsole = true;
         var channel = pusher.subscribe(`presence-chat-room.${room.id}`);
+
         channel.bind('new_message', (event) => {
-            console.log(event)
+            setMessages((previousMessages) =>
+                GiftedChat.append(previousMessages, [event.message]),
+            );
         });
 
-        setMessages([
-            {
-                _id: 1,
-                text: 'Hello developer',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 2,
-                text: 'Hello world 1',
-                createdAt: new Date(),
-                user: {
-                    _id: 1,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 3,
-                text: 'Hello world 2',
-                createdAt: new Date(),
-                user: {
-                    _id: 1,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 4,
-                text: 'Hello world 3',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 5,
-                text: 'Hello world 2 dsfes erfer efwe wefdwef wcfwefr',
-                createdAt: new Date(),
-                user: {
-                    _id: 1,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 6,
-                text: 'Hello world 3',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 7,
-                text: 'Hello world 2',
-                createdAt: new Date(),
-                user: {
-                    _id: 1,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 8,
-                text: 'Hello world 3',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-        ]);
+        getMessageList();
     }, []);
 
+    const getMessageList = async () => {
+        try {
+            await getMessages(userToken, room.id)
+                .then(([statusCode, data]) => {
+                    if (statusCode === 200 && data.messages) {
+                        setMessages(data.messages);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    showErrorToast("Can not fetch data.");
+                });
+        } catch (error) {
+            console.log(error);
+            showErrorToast("Can not fetch data.");
+        }
+    }
+
     const onSend = useCallback(async (messages = []) => {
-        console.log(messages);
         try {
             await createMessage(userToken, room.id, messages[0].text)
                 .then(([statusCode, data]) => {
                     console.log(data);
+                    setMessages((previousMessages) =>
+                        GiftedChat.append(previousMessages, messages),
+                    );
                 }).catch(error => {
                     console.log(error);
                     showErrorToast("Can not send message.");
@@ -118,9 +60,6 @@ const ChatScreen = ({ route }) => {
             console.log(error);
             showErrorToast("Can not send message.");
         }
-        setMessages((previousMessages) =>
-            GiftedChat.append(previousMessages, messages),
-        );
     }, []);
 
     const renderSend = (props) => {

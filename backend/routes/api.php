@@ -52,4 +52,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{user}/deny', [FriendController::class, 'deny']);
         Route::delete('/{user}', [FriendController::class, 'destroy']);
     });
+
+    /* =================================MESSAGE=====================================*/
+    Route::prefix('rooms')->group(function () {
+        Route::get('/{room}/messages', [MessageController::class, 'index']);
+    });
 });

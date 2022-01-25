@@ -4,46 +4,48 @@ namespace App\Http\Controllers\API;
 
 use App\Events\SendMessageEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MessageResource;
 use App\Models\Message;
+use App\Models\Room;
+use App\Repositories\Message\MessageRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    protected $messageRepo;
+
+    public function __construct(MessageRepositoryInterface $messageRepo)
     {
-        //
+        $this->messageRepo = $messageRepo;
+    }
+
+    public function index(Room $room)
+    {
+        $messages = $room->messages;
+        foreach ($messages as $message) {
+            $message->load('user');
+        }
+
+        return response()->json([
+            'messages' => MessageResource::collection($messages),
+        ], 200);
     }
 
     public function store(Request $request)
     {
-        $message = Message::create([
+        $message = $this->messageRepo->create([
             'user_id' => Auth::id(),
             'room_id' => $request['room_id'],
-            'content' => $request['content'],
+            'text' => $request['text'],
         ]);
         $message->load('user');
+        $message = MessageResource::make($message);
         broadcast(new SendMessageEvent($message))->toOthers();
 
         return response()->json([
             'message' => $message,
         ], 200);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Message $message)
-    {
-        //
     }
 
     /**
