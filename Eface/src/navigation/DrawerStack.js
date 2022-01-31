@@ -5,9 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MainStack from './MainStack';
 import SettingStack from './SettingStack';
 import CustomDrawer from '../components/CustomDrawer';
-import ProfileScreen from '../screens/ProfileScreen';
-import MessagesScreen from '../screens/MessagesScreen';
-import VideoCallScreen from '../screens/VideoCallScreen';
+import ProfileStack from './ProfileStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,29 +38,11 @@ const DrawerStack = () => {
                 }}
             />
             <Drawer.Screen
-                name="Edit Profile"
-                component={ProfileScreen}
+                name="My Profile"
+                component={ProfileStack}
                 options={{
                     drawerIcon: ({ color }) => (
-                        <Icon name="account-edit-outline" size={22} color={color} />
-                    ),
-                }}
-            />
-            <Drawer.Screen
-                name="Messages"
-                component={MessagesScreen}
-                options={{
-                    drawerIcon: ({ color }) => (
-                        <Icon name="message-processing-outline" size={22} color={color} />
-                    ),
-                }}
-            />
-            <Drawer.Screen
-                name="Video Call"
-                component={VideoCallScreen}
-                options={{
-                    drawerIcon: ({ color }) => (
-                        <Icon name="account-cog-outline" size={22} color={color} />
+                        <Icon name="account-outline" size={22} color={color} />
                     ),
                 }}
             />

@@ -2,7 +2,7 @@
 
 // const IP = '192.168.16.101'; // Hieu Truong Wifi
 
-const IP = '192.168.1.5'; // Vu Minh Hieu Wifi
+const IP = '192.168.1.2'; // Vu Minh Hieu Wifi
 
 export const API_URL = `http://${IP}:8000/api/`;
 

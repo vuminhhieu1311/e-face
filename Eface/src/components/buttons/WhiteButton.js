@@ -1,34 +1,41 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Colors from '../../utils/Colors';
 
-const WhiteButton = ({ text, ...rest }) => {
+const WhiteButton = ({ text, icon, width, ...rest }) => {
     return (
         <TouchableOpacity
-            style={[styles.signIn, {
-                borderColor: '#6F4299',
-                borderWidth: 1,
-                marginTop: 15
+            style={[styles.button, {
+                width,
             }]}
             {...rest}
         >
-            <Text style={[styles.textSign, {
-                color: '#6F4299'
-            }]}>{text}</Text>
+            <Icon style={styles.btnIcon} name={icon} size={22} />
+            <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>
     );
 };
 export default WhiteButton;
 
 const styles = StyleSheet.create({
-    signIn: {
+    button: {
         width: '100%',
         height: 50,
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10
+        borderRadius: 10,
+        borderColor: Colors.primary,
+        borderWidth: 1,
     },
-    textSign: {
+    text: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: Colors.primary,
+    },
+    btnIcon: {
+        marginRight: 10,
+        color: Colors.primary,
     }
 });
