@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         color: Colors.primary,
     },
     btnIcon: {
-        marginRight: 10,
+        marginRight: 5,
         color: Colors.primary,
     }
 });

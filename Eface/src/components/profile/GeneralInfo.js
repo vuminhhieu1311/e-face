@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, Center, Container, HStack, Text } from 'native-base';
 
-const GeneralInfo = () => {
+const GeneralInfo = ({ user }) => {
     return (
         <Box marginTop="15">
             <Center>
-                <Text fontSize="3xl" bold>Vu Minh Hieu</Text>
+                <Text fontSize="3xl" bold>{user.name}</Text>
             </Center>
             <HStack justifyContent="space-around" margin="15">
                 <Container style={{ alignItems: 'center' }}>

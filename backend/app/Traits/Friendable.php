@@ -106,7 +106,7 @@ trait Friendable
         return false;
     }
 
-    public function addFriend($userId)
+    public function addFriend($roomId, $userId)
     {
         if ($this->id === $userId || $this->isFriendWith($userId) || $this->hasPendingSentRequestTo($userId)) {
             return false;
@@ -119,6 +119,7 @@ trait Friendable
         $friendship = Friend::create([
             'requester_id' => $this->id,
             'requested_id' => $userId,
+            'room_id' => $roomId,
         ]);
 
         return $friendship;

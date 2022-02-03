@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import BottomTab from './BottomTab';
 import ChatScreen from '../screens/ChatScreen';
 import VideoCallScreen from '../screens/VideoCallScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import createAgoraToken from '../api/video-call/createAgoraToken';
 import { showErrorToast } from '../components/ToastMessage';
 import callUser from '../api/video-call/callUser';
@@ -71,7 +72,8 @@ const MainStack = () => {
                 component={BottomTab}
                 options={{
                     headerShown: false,
-                }} />
+                }} 
+            />
             <Stack.Screen
                 name="Chat"
                 component={ChatScreen}
@@ -90,6 +92,10 @@ const MainStack = () => {
                         )
                     }
                 }}
+            />
+            <Stack.Screen
+                name="Profile"
+                component={ProfileScreen}
             />
             <Stack.Screen
                 name="VideoCall"

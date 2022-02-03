@@ -27,6 +27,11 @@ class Room extends Model
             ->orderBy('created_at', 'desc');
     }
 
+    public function friend()
+    {
+        return $this->hasOne(Friend::class);
+    }
+
     public function hasUser($user)
     {
         return $this->users()

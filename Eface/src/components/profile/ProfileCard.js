@@ -8,11 +8,16 @@ import { showErrorToast } from '../ToastMessage';
 import deleteFriend from '../../api/friend/deleteFriend';
 import RedButton from '../buttons/RedButton';
 import VioletButton from '../buttons/VioletButton';
-import { IS_FRIEND, HAS_PENDING_REQUEST_FROM, HAS_PENDING_SENT_REQUEST_TO, IS_NOT_FRIEND } from '../../enums/friend/status';
+import { 
+    IS_FRIEND, 
+    HAS_PENDING_REQUEST_FROM, 
+    HAS_PENDING_SENT_REQUEST_TO, 
+    IS_NOT_FRIEND 
+} from '../../enums/friend/status';
 import WhiteButton from '../buttons/WhiteButton';
 import GrayButton from '../buttons/GrayButton';
 
-const ProfileCard = ({ user }) => {
+const ProfileCard = ({ user, navigation }) => {
     const { userToken } = useSelector(state => state.authReducer);
     const [friendStatus, setFriendStatus] = useState('');
 
@@ -108,7 +113,13 @@ const ProfileCard = ({ user }) => {
                         flexDirection: 'row',
                         alignItems: 'center',
                         maxWidth: '60%',
-                    }}>
+                    }}
+                    onPress={() => {
+                        navigation.navigate('Profile', {
+                            user,
+                        });
+                    }}
+                >
                     <Image
                         source={require('../../assets/images/user-1.jpg')}
                         alt="avatar"

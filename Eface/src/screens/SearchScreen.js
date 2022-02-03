@@ -6,7 +6,7 @@ import getUsers from '../api/friend/getUsers';
 import ProfileCard from '../components/profile/ProfileCard';
 import { showErrorToast } from '../components/ToastMessage';
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
     const { user, userToken } = useSelector(state => state.authReducer);
     const [users, setUsers] = useState([]);
 
@@ -39,7 +39,7 @@ const SearchScreen = () => {
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
-                    <ProfileCard user={item} />
+                    <ProfileCard user={item} navigation={navigation} />
                 )}
             />
         </VStack>
