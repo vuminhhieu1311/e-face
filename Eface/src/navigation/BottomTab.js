@@ -95,7 +95,7 @@ const BottomTab = ({ navigation }) => {
                                 borderRadius: 30,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                marginBottom: 60
+                                marginBottom: 40
                             }}>
                                 <Icon name="add" size={45} color="#FFF" />
                             </View>

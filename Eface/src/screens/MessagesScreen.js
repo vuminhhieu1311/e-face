@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import getFriends from '../api/friend/getFriends';
 import { showErrorToast } from '../components/ToastMessage';
 import {
     Container,

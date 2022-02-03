@@ -36,7 +36,7 @@ export const TextSection = styled.View`
     padding: 15px;
     padding-left: 0;
     margin-left: 10px;
-    width: ${screenWidth - 90}px;
+    width: ${screenWidth - 100}px;
     border-bottom-width: 1px;
     border-bottom-color: #f5d0fe;
 `;

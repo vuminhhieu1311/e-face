@@ -25,6 +25,10 @@ const ChatScreen = ({ route }) => {
         });
 
         getMessageList();
+
+        return () => {
+            setMessages([]);
+        };
     }, []);
 
     const getMessageList = async () => {
@@ -49,9 +53,6 @@ const ChatScreen = ({ route }) => {
             await createMessage(userToken, room.id, messages[0].text)
                 .then(([statusCode, data]) => {
                     console.log(data);
-                    setMessages((previousMessages) =>
-                        GiftedChat.append(previousMessages, messages),
-                    );
                 }).catch(error => {
                     console.log(error);
                     showErrorToast("Can not send message.");
