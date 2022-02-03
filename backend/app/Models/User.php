@@ -37,6 +37,11 @@ class User extends Authenticatable
         return $query->where('id', '!=', Auth::id())->get();
     }
 
+    public function scopeNotFriend($query)
+    {
+        return $query->where('id', '!=', Auth::id())->get();
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);

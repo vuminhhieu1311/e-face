@@ -4,6 +4,7 @@ export default Colors = {
     white: '#fff',
     black: '#000',
     green: '#63C48C',
+    danger: '#e11d48',
     red: '#F31954',
     darkBlue: '#2D3F7B',
     lightGray : '#CFD7ED',

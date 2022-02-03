@@ -3,12 +3,12 @@ import { TouchableOpacity, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import LogoTitle from '../components/LogoTitle';
 import HomeScreen from '../screens/HomeScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import SplashScreen from '../screens/SplashScreen';
-import LoginScreen from '../screens/LoginScreen';
-import LogoTitle from '../components/LogoTitle';
 import MessagesScreen from '../screens/MessagesScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -70,7 +70,7 @@ const BottomTab = ({ navigation }) => {
 
             <Tab.Screen
                 name="Search"
-                component={LoginScreen}
+                component={SearchScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <View style={{

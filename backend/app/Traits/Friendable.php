@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Enums\Friend\Status;
 use App\Models\Friend;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 trait Friendable
 {
@@ -33,6 +34,11 @@ trait Friendable
     public function friendIds()
     {
         return collect($this->friends())->pluck('id')->toArray();
+    }
+
+    public function notFriends()
+    {
+        return User::whereNotIn('id', $this->friendIds())->get();
     }
 
     public function isFriendWith($userId)

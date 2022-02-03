@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import {
     View,
     TouchableOpacity,
-    Platform,
     StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,6 +17,7 @@ import createToken from '../api/auth/createToken';
 import { showErrorToast } from '../components/ToastMessage';
 import FormInput from '../components/forms/FormInput';
 import isIOS from '../utils/isIOS';
+import { Box } from 'native-base';
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -48,7 +48,7 @@ const LoginScreen = ({ navigation }) => {
             console.log(error);
             showErrorToast("Login Fail.");
         }
-    }
+    };
 
     return (
         <AuthLayout>
@@ -87,7 +87,8 @@ const LoginScreen = ({ navigation }) => {
             </FormInput>
             <View style={styles.button}>
                 <VioletButton text="Sign In" onPress={handleLogin} />
-                <WhiteButton text="Sign Up" onPress={() => navigation.navigate('Register')} />
+                <Box height="5" />
+                <WhiteButton text="Sign Up" width="100%" onPress={() => navigation.navigate('Register')} />
             </View>
         </AuthLayout>
     );
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        marginTop: isIOS ? 0 : -12,
         paddingLeft: 10,
         color: '#05375a',
     },

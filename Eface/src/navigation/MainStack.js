@@ -85,7 +85,7 @@ const MainStack = () => {
                                     name="videocam"
                                     size={25}
                                     onPress={() => { startVideoCall(navigation, route.params.user) }}
-                                    color="#FFF"></Icon>
+                                    color="#FFF" />
                             </TouchableOpacity>
                         )
                     }

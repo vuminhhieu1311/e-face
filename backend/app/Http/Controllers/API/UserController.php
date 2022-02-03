@@ -11,8 +11,13 @@ class UserController extends Controller
 {
     public function index()
     {
+        $users = User::notAuthorized();
+        foreach ($users as $user) {
+            $user->is_friend = Auth::user()->isFriendWith($user->id);
+        }
+
         return response()->json([
-            'users' => User::notAuthorized(),
+            'users' => $users,
         ], 200);
     }
 

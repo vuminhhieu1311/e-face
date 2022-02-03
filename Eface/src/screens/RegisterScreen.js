@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import {
     View,
     TouchableOpacity,
-    Platform,
     StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,6 +16,8 @@ import { showErrorToast } from '../components/ToastMessage';
 import createToken from '../api/auth/createToken';
 import { AuthContext } from '../utils/Context';
 import FormInput from '../components/forms/FormInput';
+import { Box } from 'native-base';
+import isIOS from '../utils/isIOS';
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -135,7 +136,8 @@ const RegisterScreen = ({ navigation }) => {
             </FormInput>
             <View style={styles.button}>
                 <VioletButton text="Sign Up" onPress={handleRegister} />
-                <WhiteButton text="Sign In" onPress={() => navigation.goBack()} />
+                <Box height="5" />
+                <WhiteButton text="Sign In" width="100%" onPress={() => navigation.goBack()} />
             </View>
         </AuthLayout>
     );
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        marginTop: isIOS ? 0 : -12,
         paddingLeft: 10,
         color: '#05375a',
     },
