@@ -36,10 +36,10 @@ trait Friendable
         return collect($this->friends())->pluck('id')->toArray();
     }
 
-    public function notFriends()
-    {
-        return User::whereNotIn('id', $this->friendIds())->get();
-    }
+//    public function notFriends()
+//    {
+//        return User::whereNotIn('id', $this->friendIds())->get();
+//    }
 
     public function isFriendWith($userId)
     {
@@ -162,22 +162,20 @@ trait Friendable
 
     public function deleteFriend($userId)
     {
-        if ($this->isFriendWith($userId)) {
-            $friend1 = Friend::where([
-                'requester_id' => $userId,
-                'requested_id' => $this->id,
-            ])->first();
-            if ($friend1) {
-                return $friend1->delete();
-            }
+        $friend1 = Friend::where([
+            'requester_id' => $userId,
+            'requested_id' => $this->id,
+        ])->first();
+        if ($friend1) {
+            return $friend1->delete();
+        }
 
-            $friend2 = Friend::where([
-                'requester_id' => $this->id,
-                'requested_id' => $userId,
-            ])->first();
-            if ($friend2) {
-                return $friend2->delete();
-            }
+        $friend2 = Friend::where([
+            'requester_id' => $this->id,
+            'requested_id' => $userId,
+        ])->first();
+        if ($friend2) {
+            return $friend2->delete();
         }
 
         return false;

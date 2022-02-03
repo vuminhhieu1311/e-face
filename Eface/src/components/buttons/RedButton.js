@@ -1,25 +1,28 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
+import { Text } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../../utils/Colors';
 
-const VioletIconButton = ({ icon, width, ...rest }) => {
+const RedButton = ({ text, icon, width, ...rest }) => {
     return (
         <TouchableOpacity
             style={styles.button}
             {...rest}
         >
             <LinearGradient
-                colors={[Colors.primary, Colors.secondary]}
+                colors={[Colors.red, Colors.danger]}
                 style={styles.button}
             >
-                <Icon style={styles.btnIcon} name={icon} size={30} />
+                <Icon style={styles.btnIcon} name={icon} size={22} />
+                <Text style={styles.text} color={Colors.white}>{text}</Text>
             </LinearGradient>
         </TouchableOpacity>
     );
 };
-export default VioletIconButton;
+
+export default RedButton;
 
 const styles = StyleSheet.create({
     button: {
@@ -34,6 +37,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         fontWeight: 'bold',
+        marginLeft: 10,
     },
     btnIcon: {
         color: 'white',

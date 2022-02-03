@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Friend\Status;
 use App\Traits\Friendable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,6 +32,32 @@ class User extends Authenticatable
     protected $with = [
         'profile',
     ];
+
+    protected $appends = [
+        'friend_status'
+    ];
+
+    public function getFriendStatusAttribute()
+    {
+        $authUser = Auth::user();
+        if ($this->id !== Auth::id()) {
+            if ($authUser->isFriendWith($this->id)) {
+                return Status::IS_FRIEND;
+            }
+
+            if ($authUser->hasPendingRequestFrom($this->id)) {
+                return Status::HAS_PENDING_REQUEST_FROM;
+            }
+
+            if ($authUser->hasPendingSentRequestTo($this->id)) {
+                return Status::HAS_PENDING_SENT_REQUEST_TO;
+            }
+
+            return Status::IS_NOT_FRIEND;
+        }
+
+        return null;
+    }
 
     public function scopeNotAuthorized($query)
     {

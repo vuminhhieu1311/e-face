@@ -10,5 +10,7 @@ export default Colors = {
     lightGray : '#CFD7ED',
     yellow: '#FFD54F',
     bgLight:' #F8F9FA',
-    lightBackground: '#FAFBFC'
+    lightBackground: '#FAFBFC',
+    gray: '#525252',
+    muted: '#a3a3a3',
 }

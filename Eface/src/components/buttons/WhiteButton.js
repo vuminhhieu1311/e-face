@@ -21,7 +21,7 @@ export default WhiteButton;
 const styles = StyleSheet.create({
     button: {
         width: '100%',
-        height: 50,
+        height: 45,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
