@@ -19,6 +19,7 @@ const MainStack = () => {
     const { user, userToken } = useSelector(state => state.authReducer);
 
     const startVideoCall = async (navigation, partner) => {
+        console.log(partner)
         const channelName = `${user.id}-${partner.id}`;
         try {
             await callUser(userToken, channelName, partner.id)
@@ -86,7 +87,7 @@ const MainStack = () => {
                                 <Icon
                                     name="videocam"
                                     size={25}
-                                    onPress={() => { startVideoCall(navigation, route.params.user) }}
+                                    onPress={() => { startVideoCall(navigation, room.users[0]) }}
                                     color="#FFF" />
                             </TouchableOpacity>
                         )
