@@ -17,9 +17,7 @@ class RoomRepository extends Repository implements RoomRepositoryInterface
         $rooms = $user->rooms;
 
         foreach ($rooms as $room) {
-            $room->load(['users' => function ($query) use ($user){
-                $query->where('users.id', '!=', $user->id);
-            }]);
+            $room->load('notAuthUsers');
         }
 
         return $rooms;

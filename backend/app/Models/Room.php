@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Room extends Model
 {
@@ -18,6 +19,12 @@ class Room extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function notAuthUsers()
+    {
+        return $this->belongsToMany(User::class)
+            ->where('users.id', '!=', Auth::id());
     }
 
     public function messages()

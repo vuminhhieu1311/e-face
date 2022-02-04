@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Enums\Friend\Status;
 use App\Enums\Room\Type;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\Room\RoomRepositoryInterface;
 use App\Repositories\RoomUser\RoomUserRepositoryInterface;
@@ -73,9 +72,7 @@ class RoomController extends Controller
                     'status' => Status::NOT_FRIEND,
                 ]);
                 DB::commit();
-                $room->load(['users' => function ($query) {
-                    $query->where('users.id', '!=', Auth::id());
-                }]);
+                $room->load('notAuthUsers');
 
                 return response()->json([
                     'room' => $room,
@@ -86,9 +83,7 @@ class RoomController extends Controller
             }
         }
         $room = $friend->room;
-        $room->load(['users' => function ($query) {
-            $query->where('users.id', '!=', Auth::id());
-        }]);
+        $room->load('notAuthUsers');
 
         return response()->json([
             'room' => $room,

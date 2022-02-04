@@ -18,13 +18,11 @@ const Stack = createNativeStackNavigator();
 const MainStack = () => {
     const { user, userToken } = useSelector(state => state.authReducer);
 
-    const startVideoCall = async (navigation, partner) => {
-        console.log(partner)
-        const channelName = `${user.id}-${partner.id}`;
+    const startVideoCall = async (navigation, roomId) => {
+        const channelName = roomId.toString();
         try {
-            await callUser(userToken, channelName, partner.id)
+            await callUser(userToken, channelName, roomId)
                 .then(([statusCode, data]) => {
-                    console.log(data)
                     if (statusCode === 200) {
                         createAgoraToken(channelName, userToken)
                             .then(([statusCode, data]) => {
@@ -81,13 +79,13 @@ const MainStack = () => {
                 options={({ route, navigation }) => {
                     const room = route.params.room;
                     return {
-                        title: room.type === GROUP ? room.name : room.users[0].name,
+                        title: room.type === GROUP ? room.name : room.not_auth_users[0].name,
                         headerRight: () => (
                             <TouchableOpacity>
                                 <Icon
                                     name="videocam"
                                     size={25}
-                                    onPress={() => { startVideoCall(navigation, room.users[0]) }}
+                                    onPress={() => { startVideoCall(navigation, room.id) }}
                                     color="#FFF" />
                             </TouchableOpacity>
                         )

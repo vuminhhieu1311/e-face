@@ -114,7 +114,10 @@ const AppStack = () => {
 
         channel.bind('incoming_call', (event) => {
             const callingData = event.data;
-            if (callingData.to === user.id) {
+            const called = callingData.to.find((called) => {
+                return called.id === user.id;
+            });
+            if (called) {
                 channelName = callingData.channel_name;
                 displayIncomingCallNow(callingData);
             }

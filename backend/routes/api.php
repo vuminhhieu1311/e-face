@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/agora/token', [AgoraVideoController::class, 'createToken']);
-    Route::post('/agora/call-user', [AgoraVideoController::class, 'callUser']);
+    Route::post('/agora/call-user/room/{room}', [AgoraVideoController::class, 'callUser']);
     Route::resources([
         'users' => UserController::class,
         'rooms' => RoomController::class,
@@ -61,17 +61,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('test/{userId}/{partnerId}', function($userId, $partnerId) {
-    $friend = \App\Models\Friend::where([
-        'requester_id' => $partnerId,
-        'requested_id' => $userId,
-    ])->first();
-
-    if (!$friend) {
-        $friend = \App\Models\Friend::where([
-            'requester_id' => $userId,
-            'requested_id' => $partnerId,
-        ])->first();
-    }
-
-    return $friend;
 });

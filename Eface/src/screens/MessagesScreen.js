@@ -64,7 +64,7 @@ const MessagesScreen = ({ navigation }) => {
                             <TextSection>
                                 <UserInfoText>
                                     <RoomName>
-                                        {item.type === GROUP ? item.name : item.users[0].name}
+                                        {item.type === GROUP ? item.name : item.not_auth_users[0].name}
                                     </RoomName>
                                     <PostTime>1 day ago</PostTime>
                                 </UserInfoText>

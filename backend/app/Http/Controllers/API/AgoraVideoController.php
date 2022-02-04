@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CallUserRequest;
 use App\Http\Requests\CreateAgoraTokenRequest;
 use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
+use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 
 class AgoraVideoController extends Controller
@@ -27,9 +28,9 @@ class AgoraVideoController extends Controller
         ], 200);
     }
 
-    public function callUser(CallUserRequest $request)
+    public function callUser(CallUserRequest $request, Room $room)
     {
-        $data['to'] = $request->partner_id;
+        $data['to'] = $room->notAuthUsers;
         $data['channel_name'] = $request->channel_name;
         $data['from_name'] = Auth::user()->name;
         $data['from_number'] = Auth::user()->profile->phone_number;

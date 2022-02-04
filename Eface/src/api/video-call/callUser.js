@@ -1,7 +1,7 @@
 import { API_URL } from "../../utils/Config";
 
-const callUser = async (userToken, channelName, partnerID) => {
-    return await fetch(`${API_URL}agora/call-user`, {
+const callUser = async (userToken, channelName, roomId) => {
+    return await fetch(`${API_URL}agora/call-user/room/${roomId}`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -10,7 +10,6 @@ const callUser = async (userToken, channelName, partnerID) => {
         },
         body: JSON.stringify({
             channel_name: channelName,
-            partner_id: partnerID,
         })
     }).then(response => {
         const statusCode = response.status;
