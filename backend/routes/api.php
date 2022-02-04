@@ -62,31 +62,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('test/{userId}/{partnerId}', function($userId, $partnerId) {
     $friend = \App\Models\Friend::where([
-        'requester_id' => $userId,
-        'requested_id' => $partnerId,
-    ])->orWhere([
         'requester_id' => $partnerId,
         'requested_id' => $userId,
     ])->first();
 
     if (!$friend) {
-        $room = \App\Models\Room::create([
-            'type' => 'private',
-        ]);
-        \App\Models\RoomUser::create([
-            'room_id' => $room->id,
-            'user_id' => $userId,
-        ]);
-        \App\Models\RoomUser::create([
-            'room_id' => $room->id,
-            'user_id' => $partnerId,
-        ]);
-        return $room->friend()->create([
+        $friend = \App\Models\Friend::where([
             'requester_id' => $userId,
             'requested_id' => $partnerId,
-            'status' => 2,
-        ]);
+        ])->first();
     }
 
-    return $friend->room;
+    return $friend;
 });

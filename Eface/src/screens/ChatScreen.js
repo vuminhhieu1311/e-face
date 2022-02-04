@@ -10,7 +10,7 @@ import createMessage from '../api/chat-room/createMessage';
 import getMessages from '../api/chat-room/getMessages';
 
 const ChatScreen = ({ route }) => {
-    const { pusher, userToken } = useSelector(state => state.authReducer);
+    const { pusher, user, userToken } = useSelector(state => state.authReducer);
     const [messages, setMessages] = useState([]);
     const room = route.params?.room;
 
@@ -36,6 +36,7 @@ const ChatScreen = ({ route }) => {
             await getMessages(userToken, room.id)
                 .then(([statusCode, data]) => {
                     if (statusCode === 200 && data.messages) {
+                        console.log(data.messages);
                         setMessages(data.messages);
                     }
                 }).catch(error => {
@@ -134,7 +135,7 @@ const ChatScreen = ({ route }) => {
             messages={messages}
             onSend={(messages) => onSend(messages)}
             user={{
-                _id: 1,
+                _id: user.id,
             }}
             renderBubble={renderBubble}
             renderTime={renderTime}

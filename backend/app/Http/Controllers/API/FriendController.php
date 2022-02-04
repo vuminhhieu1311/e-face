@@ -63,6 +63,7 @@ class FriendController extends Controller
             DB::beginTransaction();
             $room = $this->roomRepo->create([
                 'type' => Type::PRIVATE,
+                'name' => Auth::id() . '-' . $user->id,
             ]);
             $this->roomUserRepo->create([
                 'room_id' => $room->id,
@@ -90,8 +91,6 @@ class FriendController extends Controller
     {
         $friendRequest = Auth::user()->acceptFriend($user->id);
         if ($friendRequest) {
-            //        event(new FriendRequestAcceptedEvent($user));
-
             return response()->json([
                 'friend_request' => $friendRequest,
             ], 200);

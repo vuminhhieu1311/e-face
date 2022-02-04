@@ -152,8 +152,9 @@ trait Friendable
                 'requested_id' => $this->id,
             ])->first();
             if ($friendship) {
-                $friendship->delete();
-
+                $friendship->update([
+                    'status' => Status::NOT_FRIEND,
+                ]);
                 return true;
             }
         }
@@ -168,7 +169,10 @@ trait Friendable
             'requested_id' => $this->id,
         ])->first();
         if ($friend1) {
-            return $friend1->delete();
+            $friend1->update([
+                'status' => Status::NOT_FRIEND,
+            ]);
+            return true;
         }
 
         $friend2 = Friend::where([
@@ -176,7 +180,10 @@ trait Friendable
             'requested_id' => $userId,
         ])->first();
         if ($friend2) {
-            return $friend2->delete();
+            $friend2->update([
+                'status' => Status::NOT_FRIEND,
+            ]);
+            return true;
         }
 
         return false;

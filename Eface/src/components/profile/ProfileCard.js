@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Image, Text } from 'native-base';
+import { Box, Button, Image, Text } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import addFriend from '../../api/friend/addFriend';
 import { showErrorToast } from '../ToastMessage';
 import deleteFriend from '../../api/friend/deleteFriend';
-import RedButton from '../buttons/RedButton';
-import VioletButton from '../buttons/VioletButton';
-import { 
-    IS_FRIEND, 
-    HAS_PENDING_REQUEST_FROM, 
-    HAS_PENDING_SENT_REQUEST_TO, 
-    IS_NOT_FRIEND 
+import {
+    HAS_PENDING_SENT_REQUEST_TO,
+    IS_NOT_FRIEND
 } from '../../enums/friend/status';
-import WhiteButton from '../buttons/WhiteButton';
-import GrayButton from '../buttons/GrayButton';
 
 const ProfileCard = ({ user, navigation }) => {
     const { userToken } = useSelector(state => state.authReducer);
@@ -61,44 +56,28 @@ const ProfileCard = ({ user, navigation }) => {
     }
 
     const renderFriendRequestButton = () => {
-        if (friendStatus === IS_FRIEND) {
-            return (
-                <RedButton
-                        text="Delete friend"
-                        icon="account-minus"
-                        style={{ width: 152 }}
-                        onPress={sendDeleteFriendRequest}
-                    />
-            );
-        }
-        if (friendStatus === HAS_PENDING_REQUEST_FROM) {
-            return (
-                <WhiteButton
-                        text="Accept"
-                        icon="account-check"
-                        width={152}
-                        onPress={sendDeleteFriendRequest}
-                    />
-            );
-        }
         if (friendStatus === HAS_PENDING_SENT_REQUEST_TO) {
             return (
-                <WhiteButton
-                    text="Pending"
-                    icon="account-remove"
-                    width={152}
-                    onPress={sendDeleteFriendRequest}
-                />
+                <TouchableOpacity>
+                    <Icon
+                        name="account-arrow-right"
+                        color="#6F4299"
+                        size={30}
+                        onPress={sendDeleteFriendRequest}
+                    />
+                </TouchableOpacity>
             );
         }
         if (friendStatus === IS_NOT_FRIEND) {
             return (
-                <VioletButton 
-                        text="Add friend"
-                        icon="account-plus" 
-                        style={{ width: 152 }} 
-                        onPress={sendFriendRequest} 
+                <TouchableOpacity>
+                    <Icon
+                        name="account-plus-outline"
+                        color="#6F4299"
+                        size={30}
+                        onPress={sendFriendRequest}
                     />
+                </TouchableOpacity>
             );
         }
 
@@ -112,7 +91,7 @@ const ProfileCard = ({ user, navigation }) => {
                     style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        maxWidth: '60%',
+                        maxWidth: '80%',
                     }}
                     onPress={() => {
                         navigation.navigate('Profile', {

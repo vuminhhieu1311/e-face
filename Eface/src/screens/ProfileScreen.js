@@ -101,8 +101,8 @@ const ProfileScreen = ({ navigation, route }) => {
         try {
             await getRoom(userToken, user.id)
                 .then(([statusCode, data]) => {
+                    console.log(data)
                     if (statusCode === 200 && data.room) {
-                        console.log(data.room)
                         navigation.navigate('Chat', {
                             room: data.room,
                         })
@@ -133,13 +133,11 @@ const ProfileScreen = ({ navigation, route }) => {
                 <>
                     <VioletButton
                         text="Accept"
-                        icon="account-check"
-                        style={{ width: '24%' }}
+                        style={{ width: '27%' }}
                         onPress={sendAcceptFriendRequest}
                     />
                     <WhiteButton
                         text="Deny"
-                        icon="account-remove"
                         width="24%"
                         onPress={sendDenyFriendRequest}
                     />

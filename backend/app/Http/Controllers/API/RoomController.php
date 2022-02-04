@@ -57,6 +57,7 @@ class RoomController extends Controller
                 DB::beginTransaction();
                 $room = $this->roomRepo->create([
                     'type' => Type::PRIVATE,
+                    'name' => Auth::id() . '-' . $userId,
                 ]);
                 $this->roomUserRepo->create([
                     'room_id' => $room->id,

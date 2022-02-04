@@ -33,7 +33,7 @@ const SearchScreen = ({ navigation }) => {
     }
 
     return (
-        <VStack paddingBottom={20} margin={15}>
+        <VStack paddingBottom={20} padding={15} bgColor="#FFFFFF">
             <FlatList
                 data={users}
                 keyExtractor={item => item.id}

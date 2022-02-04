@@ -7,7 +7,7 @@ export const Container = styled.View`
     padding-right: 20px;
     align-items: center;
     background-color: #ffffff;
-    margin-bottom: 78px;
+    padding-bottom: 78px;
 `;
 
 export const Card = styled.TouchableOpacity`

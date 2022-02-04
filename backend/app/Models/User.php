@@ -40,7 +40,7 @@ class User extends Authenticatable
     public function getFriendStatusAttribute()
     {
         $authUser = Auth::user();
-        if ($this->id !== Auth::id()) {
+        if (Auth::user() && $this->id !== Auth::id()) {
             if ($authUser->isFriendWith($this->id)) {
                 return Status::IS_FRIEND;
             }

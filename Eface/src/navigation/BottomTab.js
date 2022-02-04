@@ -9,6 +9,7 @@ import NotificationScreen from '../screens/NotificationScreen';
 import SplashScreen from '../screens/SplashScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import SearchScreen from '../screens/SearchScreen';
+import isIOS from '../utils/isIOS';
 
 const Tab = createBottomTabNavigator();
 
@@ -95,7 +96,7 @@ const BottomTab = ({ navigation }) => {
                                 borderRadius: 30,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                marginBottom: 40
+                                marginBottom: isIOS ? 40 : 60
                             }}>
                                 <Icon name="add" size={45} color="#FFF" />
                             </View>

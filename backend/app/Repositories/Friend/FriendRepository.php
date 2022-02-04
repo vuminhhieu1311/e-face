@@ -15,12 +15,18 @@ class FriendRepository extends Repository implements FriendRepositoryInterface
 
     public function getFriendByUserId($userId, $partnerId)
     {
-        return $this->model->where([
-            'requester_id' => $userId,
-            'requested_id' => $partnerId,
-        ])->orWhere([
+        $friend = $this->model->where([
             'requester_id' => $partnerId,
             'requested_id' => $userId,
         ])->first();
+
+        if (!$friend) {
+            $friend = $this->model->where([
+                'requester_id' => $userId,
+                'requested_id' => $partnerId,
+            ])->first();
+        }
+
+        return $friend;
     }
 }
