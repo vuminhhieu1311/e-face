@@ -11,4 +11,12 @@ class UserRepository extends Repository implements UserRepositoryInterface
     {
         return User::class;
     }
+
+    public function getAllUsers($keyword)
+    {
+        return $this->model->notAuthorized()
+            ->where('name', 'like', '%'.$keyword.'%')
+            ->orWhere('email', 'like', '%'.$keyword.'%')
+            ->get();
+    }
 }

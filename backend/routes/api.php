@@ -61,6 +61,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
-Route::get('test/{roomId}', function($roomId) {
+Route::get('test/{keyword}', function($keyword) {
 
 });

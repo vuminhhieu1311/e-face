@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function scopeNotAuthorized($query)
     {
-        return $query->where('id', '!=', Auth::id())->get();
+        return $query->where('id', '!=', Auth::id());
     }
 
     public function scopeNotFriend($query)

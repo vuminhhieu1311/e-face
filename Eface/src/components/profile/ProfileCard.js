@@ -20,6 +20,10 @@ const ProfileCard = ({ user, navigation }) => {
         setFriendStatus(user.friend_status);
     }, []);
 
+    const setStatus = (status) => {
+        setFriendStatus(status);
+    };
+
     const sendFriendRequest = async () => {
         try {
             await addFriend(userToken, user.id)
@@ -96,6 +100,7 @@ const ProfileCard = ({ user, navigation }) => {
                     onPress={() => {
                         navigation.navigate('Profile', {
                             user,
+                            setStatus,
                         });
                     }}
                 >

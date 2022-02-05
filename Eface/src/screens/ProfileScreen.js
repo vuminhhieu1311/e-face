@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Box, Center, HStack, Image } from 'native-base';
 import { scale } from 'react-native-size-matters';
 import { useSelector } from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import VioletButton from '../components/buttons/VioletButton';
 import GeneralInfo from '../components/profile/GeneralInfo';
@@ -27,6 +28,20 @@ const ProfileScreen = ({ navigation, route }) => {
 
     useEffect(() => {
         setFriendStatus(user.friend_status);
+        navigation.setOptions({
+            headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack();
+                    route.params.setStatus(user.friend_status);
+                }}>
+                    <Icon
+                        name="arrow-left"
+                        color="#FFFFFF"
+                        size={28}
+                    />
+                </TouchableOpacity>
+            ),
+        });
     }, []);
 
     const sendFriendRequest = async () => {
@@ -35,6 +50,7 @@ const ProfileScreen = ({ navigation, route }) => {
                 .then(([statusCode, data]) => {
                     if (statusCode === 200 && data.friend_request) {
                         setFriendStatus(HAS_PENDING_SENT_REQUEST_TO);
+                        user.friend_status = HAS_PENDING_SENT_REQUEST_TO;
                     }
                 }).catch(error => {
                     console.log(error);
@@ -52,6 +68,7 @@ const ProfileScreen = ({ navigation, route }) => {
                 .then(([statusCode, data]) => {
                     if (statusCode === 200 && data.message) {
                         setFriendStatus(IS_NOT_FRIEND);
+                        user.friend_status = IS_NOT_FRIEND;
                     }
                 }).catch(error => {
                     console.log(error);
@@ -69,6 +86,7 @@ const ProfileScreen = ({ navigation, route }) => {
                 .then(([statusCode, data]) => {
                     if (statusCode === 200 && data.friend_request) {
                         setFriendStatus(IS_FRIEND);
+                        user.friend_status = IS_FRIEND;
                     }
                 }).catch(error => {
                     console.log(error);
@@ -86,6 +104,7 @@ const ProfileScreen = ({ navigation, route }) => {
                 .then(([statusCode, data]) => {
                     if (statusCode === 200 && data.message) {
                         setFriendStatus(IS_NOT_FRIEND);
+                        user.friend_status = IS_NOT_FRIEND;
                     }
                 }).catch(error => {
                     console.log(error);

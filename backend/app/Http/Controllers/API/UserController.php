@@ -4,14 +4,28 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\User\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function index()
+    protected $userRepo;
+
+    public function __construct(UserRepository $userRepo)
     {
-        $users = User::notAuthorized();
+        $this->userRepo = $userRepo;
+    }
+
+    public function index(Request $request)
+    {
+        $keyword = $request->query('keyword');
+        if ($keyword) {
+            $users = $this->userRepo->getAllUsers($keyword);
+        } else {
+            $users = User::notAuthorized()->get();
+        }
+
         foreach ($users as $user) {
             $user->is_friend = Auth::user()->isFriendWith($user->id);
         }
