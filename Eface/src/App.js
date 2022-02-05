@@ -6,7 +6,11 @@ import Toast from 'react-native-toast-message';
 import toastConfig from './utils/ToastConfig';
 import { LogBox, StatusBar } from 'react-native';
 
-LogBox.ignoreLogs(['Reanimated 2', 'RtcConfigure']);
+LogBox.ignoreLogs([
+  'Reanimated 2', 
+  'RtcConfigure',
+  'Non-serializable values were found in the navigation state',
+]);
 
 const App = () => {
   return (

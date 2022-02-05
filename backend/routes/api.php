@@ -7,6 +7,7 @@ use App\Http\Controllers\API\FriendController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\RoomController;
 use App\Http\Controllers\API\UserController;
+use App\Repositories\Room\RoomRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,5 +61,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
-Route::get('test/{userId}/{partnerId}', function($userId, $partnerId) {
+Route::get('test/{roomId}', function($roomId) {
+
 });

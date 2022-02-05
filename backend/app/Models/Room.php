@@ -14,6 +14,7 @@ class Room extends Model
         'name',
         'is_active',
         'type',
+        'updated_at',
     ];
 
     public function users()

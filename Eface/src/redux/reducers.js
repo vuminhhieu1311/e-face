@@ -1,9 +1,10 @@
-import { SET_USER_DATA, SET_PUSHER, LOGOUT } from './actions';
+import { SET_USER_DATA, SET_PUSHER, SET_ROOMS, LOGOUT } from './actions';
 
 const initialState = {
     user: null,
     userToken: null,
     pusher: null,
+    rooms: [],
 }
 
 function authReducer(state = initialState, action) {
@@ -18,6 +19,11 @@ function authReducer(state = initialState, action) {
             return {
                 ...state,
                 pusher: action.payload.pusher,
+            };
+        case SET_ROOMS:
+            return {
+                ...state,
+                rooms: action.payload.rooms,
             };
         case LOGOUT:
             return {

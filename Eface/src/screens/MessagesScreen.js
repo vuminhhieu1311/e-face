@@ -55,8 +55,10 @@ const MessagesScreen = ({ navigation }) => {
                         onPress={() =>
                             navigation.navigate('Chat', {
                                 room: item,
+                                refresh: () => getFriendList(),
                             })
-                        }>
+                        }
+                    >
                         <UserInfo>
                             <UserImgWrapper>
                                 <UserImg source={require('../assets/images/user-1.jpg')} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import Pusher from 'pusher-js/react-native';
 import { Bubble, GiftedChat, InputToolbar, Send, Time } from 'react-native-gifted-chat';
@@ -9,15 +9,29 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import createMessage from '../api/chat-room/createMessage';
 import getMessages from '../api/chat-room/getMessages';
 
-const ChatScreen = ({ route }) => {
+const ChatScreen = ({ navigation, route }) => {
     const { pusher, user, userToken } = useSelector(state => state.authReducer);
     const [messages, setMessages] = useState([]);
     const room = route.params?.room;
 
     useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack();
+                    route.params.refresh();
+                }}>
+                    <Icon
+                        name="arrow-left"
+                        color="#FFFFFF"
+                        size={28}
+                    />
+                </TouchableOpacity>
+            ),
+        });
+
         Pusher.logToConsole = true;
         var channel = pusher.subscribe(`presence-chat-room.${room.id}`);
-
         channel.bind('new_message', (event) => {
             setMessages((previousMessages) =>
                 GiftedChat.append(previousMessages, [event.message]),

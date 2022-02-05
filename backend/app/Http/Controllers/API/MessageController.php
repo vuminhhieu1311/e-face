@@ -8,16 +8,21 @@ use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Models\Room;
 use App\Repositories\Message\MessageRepositoryInterface;
+use App\Repositories\Room\RoomRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class MessageController extends Controller
 {
     protected $messageRepo;
+    protected $roomRepo;
 
-    public function __construct(MessageRepositoryInterface $messageRepo)
+    public function __construct(MessageRepositoryInterface $messageRepo, RoomRepositoryInterface $roomRepo)
     {
         $this->messageRepo = $messageRepo;
+        $this->roomRepo = $roomRepo;
     }
 
     public function index(Room $room)
@@ -34,18 +39,31 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
-        $message = $this->messageRepo->create([
-            'user_id' => Auth::id(),
-            'room_id' => $request['room_id'],
-            'text' => $request['text'],
-        ]);
-        $message->load('user');
-        $message = MessageResource::make($message);
-        broadcast(new SendMessageEvent($message))->toOthers();
+        try {
+            DB::beginTransaction();
+            $message = $this->messageRepo->create([
+                'user_id' => Auth::id(),
+                'room_id' => $request['room_id'],
+                'text' => $request['text'],
+            ]);
+            $this->roomRepo->update($request['room_id'], [
+                'updated_at' => now(),
+            ]);
+            DB::commit();
 
-        return response()->json([
-            'message' => $message,
-        ], 200);
+            $message->load('user');
+            $message = MessageResource::make($message);
+            broadcast(new SendMessageEvent($message))->toOthers();
+
+            return response()->json([
+                'message' => $message,
+            ], 200);
+        } catch (Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'message' => 'Can not send message.',
+            ], 500);
+        }
     }
 
     /**
