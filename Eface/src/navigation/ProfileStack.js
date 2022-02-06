@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import ProfileScreen from '../screens/ProfileScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import MyProfileScreen from '../screens/MyProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +26,7 @@ const ProfileStack = ({ navigation }) => {
         >
             <Stack.Screen
                 name="Profile"
-                component={ProfileScreen}
+                component={MyProfileScreen}
                 options={{
                     headerLeft: () => (
                         <TouchableOpacity>
@@ -38,6 +38,7 @@ const ProfileStack = ({ navigation }) => {
                             />
                         </TouchableOpacity>
                     ),
+                    headerTitle: "My Profile",
                 }} 
             />
             <Stack.Screen name="Change Password" component={ChangePasswordScreen} />

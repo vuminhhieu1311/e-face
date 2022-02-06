@@ -3,8 +3,8 @@ import { screenWidth } from '../../utils/Dimensions';
 
 export const Container = styled.View`
     flex: 1;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
     align-items: center;
     background-color: #ffffff;
     padding-bottom: 78px;
@@ -22,12 +22,6 @@ export const UserInfo = styled.View`
 export const UserImgWrapper = styled.View`
     padding-top: 15px;
     padding-bottom: 15px;
-`;
-
-export const UserImg = styled.Image`
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
 `;
 
 export const TextSection = styled.View`

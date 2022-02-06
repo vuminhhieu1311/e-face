@@ -3,6 +3,7 @@ import { Box, Button, Image, Text } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import UserAvatar from 'react-native-user-avatar';
 
 import addFriend from '../../api/friend/addFriend';
 import { showErrorToast } from '../ToastMessage';
@@ -104,12 +105,11 @@ const ProfileCard = ({ user, navigation }) => {
                         });
                     }}
                 >
-                    <Image
-                        source={require('../../assets/images/user-1.jpg')}
-                        alt="avatar"
-                        size={50}
-                        borderRadius={100}
-                        marginRight={5}
+                    <UserAvatar
+                        size={40}
+                        bgColors={['#6F4299', '#c084fc', '#ccaabb', '#f472b6', '#a78bfa', '#60a5fa']}
+                        name={user.name}
+                        style={{marginRight: 15}}
                     />
                     <Box width="100%">
                         <Text fontSize="lg" bold>

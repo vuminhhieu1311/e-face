@@ -35,9 +35,8 @@ const SearchScreen = ({ navigation }) => {
         }
     }
 
-    const onSearchUser = async () => {
+    const onSearchUser = async (keyword) => {
         try {
-            console.log(keyword)
             await searchUsers(userToken, keyword)
                 .then(([statusCode, data]) => {
                     if (statusCode === 200 && data.users) {
@@ -61,7 +60,10 @@ const SearchScreen = ({ navigation }) => {
                 py="0"
                 value={keyword}
                 size="sm"
-                onChangeText={(text) => setKeyword(text)}
+                onChangeText={(text) => {
+                    setKeyword(text);
+                    onSearchUser(text);
+                }}
                 InputRightElement={
                     <Button 
                         size="sm" 
@@ -69,7 +71,7 @@ const SearchScreen = ({ navigation }) => {
                         w="1/5" 
                         h="full" 
                         bgColor="#6F4299"
-                        onPress={onSearchUser}
+                        onPress={() => onSearchUser(keyword)}
                     >
                         Search
                     </Button>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
+import UserAvatar from 'react-native-user-avatar';
 
 import { showErrorToast } from '../components/ToastMessage';
 import {
@@ -8,7 +9,6 @@ import {
     Card,
     UserInfo,
     UserImgWrapper,
-    UserImg,
     UserInfoText,
     RoomName,
     PostTime,
@@ -61,7 +61,12 @@ const MessagesScreen = ({ navigation }) => {
                     >
                         <UserInfo>
                             <UserImgWrapper>
-                                <UserImg source={require('../assets/images/user-1.jpg')} />
+                                <UserAvatar 
+                                    size={40} 
+                                    bgColors={['#6F4299', '#c084fc', '#ccaabb', '#f472b6', '#a78bfa', '#60a5fa']} 
+                                    name={item.type === GROUP ? item.name : item.not_auth_users[0].name}
+                                    style={{marginRight: 8}}
+                                />
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>

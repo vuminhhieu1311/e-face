@@ -4,6 +4,7 @@ import { Box, Center, HStack, Image } from 'native-base';
 import { scale } from 'react-native-size-matters';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import UserAvatar from 'react-native-user-avatar';
 
 import VioletButton from '../components/buttons/VioletButton';
 import GeneralInfo from '../components/profile/GeneralInfo';
@@ -192,25 +193,25 @@ const ProfileScreen = ({ navigation, route }) => {
             <Box style={styles.cover}>
                 <Image
                     style={styles.coverImg}
-                    source={require('../assets/images/cover.jpg')}
+                    source={require('../assets/images/cover-avt.jpeg')}
                     alt="cover"
                 />
             </Box>
             <Box style={styles.profile} paddingHorizontal={15}>
                 <Center>
-                    <Image
-                        style={styles.avatar}
-                        source={require('../assets/images/user-1.jpg')}
-                        alt="avatar"
+                    <UserAvatar
+                        size={140}
+                        bgColors={['#6F4299', '#c084fc', '#ccaabb', '#f472b6', '#a78bfa', '#60a5fa']}
+                        name={user.name}
                     />
                 </Center>
                 <GeneralInfo user={user} />
                 <HStack justifyContent="space-between" alignItems="center" marginTop="5">
                     {renderFriendRequestButton()}
-                    <WhiteButton 
-                        text="Message" 
-                        icon="message-bulleted" 
-                        width="47%" 
+                    <WhiteButton
+                        text="Message"
+                        icon="message-bulleted"
+                        width="47%"
                         onPress={moveToChatScreen}
                     />
                 </HStack>
