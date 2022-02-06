@@ -30,6 +30,7 @@ const MessagesScreen = ({ navigation }) => {
         try {
             await getRooms(userToken)
                 .then(([statusCode, data]) => {
+                    console.log(data)
                     if (statusCode === 200 && data.rooms) {
                         setRooms(data.rooms);
                         console.log(data.rooms)
@@ -75,7 +76,9 @@ const MessagesScreen = ({ navigation }) => {
                                     </RoomName>
                                     <PostTime>1 day ago</PostTime>
                                 </UserInfoText>
-                                <MessageText>Hey there, this is my test. Hey there, this is my test.</MessageText>
+                                <MessageText>
+                                    {item.last_message ? item.last_message.text : 'Hey there, this is my test.'}
+                                </MessageText>
                             </TextSection>
                         </UserInfo>
                     </Card>

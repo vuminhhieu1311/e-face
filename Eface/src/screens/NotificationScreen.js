@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import UserAvatar from 'react-native-user-avatar';
 
-import { showErrorToast } from '../components/ToastMessage';
 import {
     Container,
     Card,
@@ -14,8 +13,11 @@ import {
     PostTime,
     TextSection,
 } from '../assets/styles/MessagesStyles';
-import getRooms from '../api/chat-room/getRooms';
-import { GROUP } from '../enums/room/type';
+import { FRIEND_REQUEST_RECEIVED, FRIEND_REQUEST_ACCEPTED } from '../enums/notification/type';
+import {
+    HAS_PENDING_REQUEST_FROM,
+    IS_FRIEND,
+} from '../enums/friend/status';
 
 const NotificationScreen = ({ navigation }) => {
     const { user, userToken } = useSelector(state => state.authReducer);
@@ -28,11 +30,22 @@ const NotificationScreen = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Card
-                        onPress={() =>
-                            navigation.navigate('Chat', {
-                                room: item,
-                            })
-                        }
+                        onPress={() => {
+                            if (item.type === FRIEND_REQUEST_RECEIVED) {
+                                const friend = item.data.friend;
+                                friend.friend_status = HAS_PENDING_REQUEST_FROM;
+                                navigation.navigate('Profile', {
+                                    user: friend,
+                                });
+                            }
+                            else if (item.type === FRIEND_REQUEST_ACCEPTED) {
+                                const friend = item.data.friend;
+                                friend.friend_status = IS_FRIEND;
+                                navigation.navigate('Profile', {
+                                    user: friend,
+                                });
+                            }
+                        }}
                     >
                         <UserInfo>
                             <UserImgWrapper>

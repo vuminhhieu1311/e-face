@@ -47,6 +47,7 @@ class MessageController extends Controller
                 'text' => $request['text'],
             ]);
             $this->roomRepo->update($request['room_id'], [
+                'last_message' => $message->id,
                 'updated_at' => now(),
             ]);
             DB::commit();

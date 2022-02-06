@@ -14,8 +14,18 @@ class Room extends Model
         'name',
         'is_active',
         'type',
+        'last_message',
         'updated_at',
     ];
+
+    public function getLastMessageAttribute($value)
+    {
+        if ($value) {
+            return Message::findOrFail($value);
+        }
+
+        return null;
+    }
 
     public function users()
     {

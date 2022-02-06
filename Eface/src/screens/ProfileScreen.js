@@ -33,7 +33,9 @@ const ProfileScreen = ({ navigation, route }) => {
             headerLeft: () => (
                 <TouchableOpacity onPress={() => {
                     navigation.goBack();
-                    route.params.setStatus(user.friend_status);
+                    if (route.params.setStatus) {
+                        route.params.setStatus(user.friend_status);
+                    }
                 }}>
                     <Icon
                         name="arrow-left"
