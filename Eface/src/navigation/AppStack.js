@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import RNCallKeep, { CONSTANTS as CK_CONSTANTS } from 'react-native-callkeep';
 import BackgroundTimer from 'react-native-background-timer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from "react-native-push-notification";
 
 import createAgoraToken from '../api/video-call/createAgoraToken';
 import agoraStyleProps from '../assets/styles/AgoraVideoStyles';
@@ -15,6 +16,8 @@ import { AGORA_APP_ID } from '../utils/Config';
 import isIOS from '../utils/isIOS';
 import DrawerStack from './DrawerStack';
 import { setPusher } from '../redux/actions';
+import getAuthUser from '../api/auth/getAuthUser';
+import { setUserData } from '../redux/actions';
 
 var channelName = '';
 
@@ -23,6 +26,15 @@ const AppStack = () => {
     const [agoraToken, setAgoraToken] = useState('');
     const { user, userToken } = useSelector(state => state.authReducer);
     const dispatch = useDispatch();
+
+    const createNotificationChannel = () => {
+        PushNotification.createChannel(
+            {
+                channelId: "notification-channel",
+                channelName: "Notification Channel"
+            }
+        )
+    }
 
     // Set up Agora UI Kit
     const rtcProps = {
@@ -106,12 +118,39 @@ const AppStack = () => {
         }
     }
 
+    const refreshAuthUser = async () => {
+        try {
+            const userToken = await AsyncStorage.getItem('USER_TOKEN');
+            await getAuthUser(userToken)
+                .then(([statusCode, data]) => {
+                    if (statusCode === 200 && data.user) {
+                        console.log('refresh', data)
+                        try {
+                            AsyncStorage.setItem('USER', JSON.stringify(data.user));
+                        } catch (e) {
+                            console.log(e);
+                        }
+                        dispatch(setUserData(data.user, userToken));
+                    } else {
+                        showErrorToast("Something went wrong.");
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    showErrorToast("Something went wrong.");
+                });
+        } catch (error) {
+            console.log(error);
+            showErrorToast("Something went wrong.");
+        }
+    }
+
     useEffect(() => {
+        createNotificationChannel();
         Pusher.logToConsole = true;
         const pusher = initPusher(userToken);
         dispatch(setPusher(pusher));
-        var channel = pusher.subscribe('presence-agora-online-channel');
 
+        var channel = pusher.subscribe('presence-agora-online-channel');
         channel.bind('incoming_call', (event) => {
             const callingData = event.data;
             const called = callingData.to.find((called) => {
@@ -121,6 +160,17 @@ const AppStack = () => {
                 channelName = callingData.channel_name;
                 displayIncomingCallNow(callingData);
             }
+        });
+
+        var notificationChannel = pusher.subscribe(`private-App.Models.User.${user.id}`);
+        notificationChannel.bind('Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (event) => {
+            console.log(event);
+            PushNotification.localNotification({
+                channelId: "notification-channel",
+                message: event.message,
+                userInfo: event.friend,
+            });
+            refreshAuthUser();
         });
 
         // RN CallKeep event listener

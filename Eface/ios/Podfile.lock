@@ -389,6 +389,8 @@ PODS:
     - React
   - RNCAsyncStorage (1.15.13):
     - React-Core
+  - RNCPushNotificationIOS (1.10.1):
+    - React-Core
   - RNDeviceInfo (8.4.8):
     - React-Core
   - RNFBApp (13.0.1):
@@ -497,6 +499,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNCallKeep (from `../node_modules/react-native-callkeep`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
@@ -603,6 +606,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-callkeep"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFBApp:
@@ -679,6 +684,7 @@ SPEC CHECKSUMS:
   ReactCommon: 149906e01aa51142707a10665185db879898e966
   RNCallKeep: b2e1c0a6498a943a3538c07e85c51882f18aeaa3
   RNCAsyncStorage: 08fc8807fc5a05c9d8787999205d2c8531028ec0
+  RNCPushNotificationIOS: 089da3b657e1e3d464f38195fd2e3069608ef5af
   RNDeviceInfo: 417b2ef4456c13a9d50ad8c57895eea837b735a8
   RNFBApp: dda844e7084b590eb3d9bec1b2115cabbe4bc40e
   RNFBMessaging: 037ec36b58b6f68e9b2ae83c189eb388eaf48822

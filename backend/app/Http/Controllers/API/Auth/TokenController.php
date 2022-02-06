@@ -32,6 +32,12 @@ class TokenController extends Controller
             ]);
         }
         $user->firebase_token = $firebaseToken;
+        $user->load([
+            'notifications',
+            'readNotifications',
+            'unreadNotifications',
+        ]);
+        $user->loadCount('unreadNotifications');
 
         return response()->json([
             'user' => $user,

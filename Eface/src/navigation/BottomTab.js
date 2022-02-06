@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useSelector } from 'react-redux';
 
 import LogoTitle from '../components/LogoTitle';
 import HomeScreen from '../screens/HomeScreen';
@@ -14,6 +15,8 @@ import isIOS from '../utils/isIOS';
 const Tab = createBottomTabNavigator();
 
 const BottomTab = ({ navigation }) => {
+    const { user, userToken } = useSelector(state => state.authReducer);
+
     return (
         <Tab.Navigator
             initialRouteName="Home"
@@ -116,7 +119,7 @@ const BottomTab = ({ navigation }) => {
                             <Icon name="notifications" size={30} color={color} />
                         </View>
                     ),
-                    tabBarBadge: "2",
+                    tabBarBadge: user.unread_notifications_count,
                 }} />
 
             <Tab.Screen

@@ -55,3 +55,9 @@ export const MessageText = styled.Text`
     font-size: 14px;
     color: #333333;
 `;
+
+export const NotificationText = styled.Text`
+    font-size: 14px;
+    color: #333333;
+    width: 80%;
+`;

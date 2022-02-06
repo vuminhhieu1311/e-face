@@ -33,9 +33,7 @@ Route::middleware('guest')->group(function () {
 /* =================================AUTHENTICATED=====================================*/
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/auth/token', [TokenController::class, 'destroy']);
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/auth-user', [UserController::class, 'getAuthUser']);
 
     Route::post('/agora/token', [AgoraVideoController::class, 'createToken']);
     Route::post('/agora/call-user/room/{room}', [AgoraVideoController::class, 'callUser']);

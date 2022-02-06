@@ -5,8 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Enums\Friend\Status;
 use App\Enums\Room\Type;
 use App\Http\Controllers\Controller;
-use App\Models\Friend;
 use App\Models\User;
+use App\Notifications\FriendRequestAccepted;
+use App\Notifications\FriendRequestReceived;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\Room\RoomRepositoryInterface;
 use App\Repositories\RoomUser\RoomUserRepositoryInterface;
@@ -53,6 +54,7 @@ class FriendController extends Controller
                 'requested_id' => $user->id,
                 'status' => Status::PENDING,
             ]);
+            $user->notify(new FriendRequestReceived(Auth::user()));
 
             return response()->json([
                 'friend_request' => $friend,
@@ -74,6 +76,7 @@ class FriendController extends Controller
                 'user_id' => $user->id,
             ]);
             $friendRequest = Auth::user()->addFriend($room->id, $user->id);
+            $user->notify(new FriendRequestReceived(Auth::user()));
             DB::commit();
 
             return response()->json([
@@ -91,6 +94,8 @@ class FriendController extends Controller
     {
         $friendRequest = Auth::user()->acceptFriend($user->id);
         if ($friendRequest) {
+            $user->notify(new FriendRequestAccepted(Auth::user()));
+
             return response()->json([
                 'friend_request' => $friendRequest,
             ], 200);
