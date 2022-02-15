@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 import LogoTitle from '../components/LogoTitle';
 import HomeScreen from '../screens/HomeScreen';
 import NotificationScreen from '../screens/NotificationScreen';
-import SplashScreen from '../screens/SplashScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import SearchScreen from '../screens/SearchScreen';
 import isIOS from '../utils/isIOS';
+import CreateGroupScreen from '../screens/CreateGroupScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,7 +61,7 @@ const BottomTab = ({ navigation }) => {
                         </View>
                     ),
                     headerLeft: () => (
-                        <TouchableOpacity style={{marginLeft: 20}}>
+                        <TouchableOpacity style={{ marginLeft: 20 }}>
                             <Icon
                                 name="menu"
                                 size={25}
@@ -70,7 +70,8 @@ const BottomTab = ({ navigation }) => {
                         </TouchableOpacity>
                     ),
                     headerTitle: (props) => <LogoTitle {...props} />
-                }} />
+                }}
+            />
 
             <Tab.Screen
                 name="Search"
@@ -84,28 +85,32 @@ const BottomTab = ({ navigation }) => {
                             <Icon name="search" size={30} color={color} />
                         </View>
                     )
-                }} />
+                }}
+            />
 
             <Tab.Screen
-                name="FloatingActionButton"
-                component={SplashScreen}
+                name="Create Group"
+                component={CreateGroupScreen}
                 options={{
                     tabBarIcon: () => (
-                        <TouchableOpacity>
-                            <View style={{
-                                width: 55,
-                                height: 55,
-                                backgroundColor: '#6F4299',
-                                borderRadius: 30,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                marginBottom: isIOS ? 40 : 60
-                            }}>
-                                <Icon name="add" size={45} color="#FFF" />
-                            </View>
-                        </TouchableOpacity>
-                    )
-                }}></Tab.Screen>
+                        <View style={{
+                            width: 55,
+                            height: 55,
+                            backgroundColor: '#6F4299',
+                            borderRadius: 30,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginBottom: isIOS ? 40 : 60
+                        }}>
+                            <Icon name="add" size={45} color="#FFF" />
+                        </View>
+                    ),
+                    unmountOnBlur: true
+                }}
+                listeners={({ navigation }) => ({
+                    blur: () => navigation.setParams({ screen: undefined }),
+                })}
+            />
 
             <Tab.Screen
                 name="Notifications"
@@ -120,7 +125,8 @@ const BottomTab = ({ navigation }) => {
                         </View>
                     ),
                     tabBarBadge: user.unread_notifications_count,
-                }} />
+                }}
+            />
 
             <Tab.Screen
                 name="Messages"
@@ -133,8 +139,13 @@ const BottomTab = ({ navigation }) => {
                         }}>
                             <Icon name="chatbubbles" size={30} color={color} />
                         </View>
-                    )
-                }} />
+                    ),
+                    unmountOnBlur: true
+                }}
+                listeners={({ navigation }) => ({
+                    blur: () => navigation.setParams({ screen: undefined }),
+                })}
+            />
         </Tab.Navigator>
     );
 }

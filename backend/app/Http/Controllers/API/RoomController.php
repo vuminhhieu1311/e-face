@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Enums\Friend\Status;
 use App\Enums\Room\Type;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRoomRequest;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\Room\RoomRepositoryInterface;
 use App\Repositories\RoomUser\RoomUserRepositoryInterface;
@@ -36,15 +37,36 @@ class RoomController extends Controller
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $room = $this->roomRepo->create([
+                'name' => $request->input('name'),
+                'type' => Type::GROUP,
+            ]);
+
+            $this->roomUserRepo->create([
+                'room_id' => $room->id,
+                'user_id' => Auth::id(),
+            ]);
+
+            foreach ($request->input('user_ids') as $userId) {
+                $this->roomUserRepo->create([
+                    'room_id' => $room->id,
+                    'user_id' => $userId,
+                ]);
+            }
+            DB::commit();
+            $room->load('notAuthUsers');
+
+            return response()->json([
+                'room' => $room,
+            ], 200);
+        } catch (Throwable $th) {
+            DB::rollback();
+            return response()->json('false');
+        }
     }
 
     public function show($userId)
@@ -88,17 +110,6 @@ class RoomController extends Controller
         return response()->json([
             'room' => $room,
         ], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

@@ -23,17 +23,15 @@ const MessagesScreen = ({ navigation }) => {
     const [rooms, setRooms] = useState([]);
 
     useEffect(() => {
-        getFriendList();
+        getRoomList();
     }, []);
 
-    const getFriendList = async () => {
+    const getRoomList = async () => {
         try {
             await getRooms(userToken)
                 .then(([statusCode, data]) => {
-                    console.log(data)
                     if (statusCode === 200 && data.rooms) {
                         setRooms(data.rooms);
-                        console.log(data.rooms)
                     }
                 }).catch(error => {
                     console.log(error);
@@ -56,7 +54,7 @@ const MessagesScreen = ({ navigation }) => {
                         onPress={() =>
                             navigation.navigate('Chat', {
                                 room: item,
-                                refresh: () => getFriendList(),
+                                refresh: () => getRoomList(),
                             })
                         }
                     >

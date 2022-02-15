@@ -57,25 +57,12 @@ const SearchScreen = ({ navigation }) => {
         <VStack paddingBottom={isIOS ? '22%' : '37%'} padding={15} bgColor="#FFFFFF" height="100%">
             <Input
                 w="100%"
-                py="0"
                 value={keyword}
-                size="sm"
+                size="md"
                 onChangeText={(text) => {
                     setKeyword(text);
                     onSearchUser(text);
                 }}
-                InputRightElement={
-                    <Button 
-                        size="sm" 
-                        rounded="none"
-                        w="1/5" 
-                        h="full" 
-                        bgColor="#6F4299"
-                        onPress={() => onSearchUser(keyword)}
-                    >
-                        Search
-                    </Button>
-                }
                 placeholder="Enter name/email/phone"
                 marginBottom={2}
             />

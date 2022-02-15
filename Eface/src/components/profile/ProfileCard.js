@@ -109,7 +109,7 @@ const ProfileCard = ({ user, navigation }) => {
                         size={40}
                         bgColors={['#6F4299', '#c084fc', '#ccaabb', '#f472b6', '#a78bfa', '#60a5fa']}
                         name={user.name}
-                        style={{marginRight: 15}}
+                        style={{ marginRight: 15 }}
                     />
                     <Box width="100%">
                         <Text fontSize="lg" bold>
