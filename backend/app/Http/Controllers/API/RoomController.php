@@ -58,7 +58,6 @@ class RoomController extends Controller
                 ]);
             }
             DB::commit();
-            $room->load('notAuthUsers');
 
             return response()->json([
                 'room' => $room,

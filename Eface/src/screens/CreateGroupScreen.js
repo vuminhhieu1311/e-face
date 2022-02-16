@@ -2,7 +2,6 @@ import { Box, Button, FlatList, Input, Text, VStack, Image, Checkbox, FormContro
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UserAvatar from 'react-native-user-avatar';
 
 import getUsers from '../api/friend/getUsers';
