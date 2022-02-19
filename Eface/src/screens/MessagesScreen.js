@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
+import Pusher from 'pusher-js/react-native';
 import UserAvatar from 'react-native-user-avatar';
 
 import { showErrorToast } from '../components/ToastMessage';
@@ -19,11 +20,19 @@ import getRooms from '../api/chat-room/getRooms';
 import { GROUP } from '../enums/room/type';
 
 const MessagesScreen = ({ navigation }) => {
-    const { user, userToken } = useSelector(state => state.authReducer);
+    const { pusher, user, userToken } = useSelector(state => state.authReducer);
     const [rooms, setRooms] = useState([]);
 
     useEffect(() => {
         getRoomList();
+        Pusher.logToConsole = true;
+        var notificationChannel = pusher.subscribe(`private-App.Models.User.${user.id}`);
+        notificationChannel.bind('Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (event) => {
+            console.log(event);
+            if (event.type === 'App\\Notifications\\NewMessageReceived') {
+                getRoomList();
+            }
+        });
     }, []);
 
     const getRoomList = async () => {

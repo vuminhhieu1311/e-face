@@ -33,9 +33,11 @@ const ChatScreen = ({ navigation, route }) => {
         Pusher.logToConsole = true;
         var channel = pusher.subscribe(`presence-chat-room.${room.id}`);
         channel.bind('new_message', (event) => {
-            setMessages((previousMessages) =>
-                GiftedChat.append(previousMessages, [event.message]),
-            );
+            if (event.message.user.id != user.id) {
+                setMessages((previousMessages) =>
+                    GiftedChat.append(previousMessages, [event.message]),
+                );
+            }
         });
 
         getMessageList();
@@ -67,7 +69,6 @@ const ChatScreen = ({ navigation, route }) => {
         try {
             await createMessage(userToken, room.id, messages[0].text)
                 .then(([statusCode, data]) => {
-                    console.log(data);
                     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
                 }).catch(error => {
                     console.log(error);

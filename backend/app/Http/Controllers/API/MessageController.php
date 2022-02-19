@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Models\Room;
+use App\Notifications\NewMessageReceived;
 use App\Repositories\Message\MessageRepositoryInterface;
 use App\Repositories\Room\RoomRepositoryInterface;
 use Illuminate\Http\Request;
@@ -54,6 +55,12 @@ class MessageController extends Controller
 
             $message->load('user');
             $message = MessageResource::make($message);
+            $users = $message->room->users;
+            foreach ($users as $user) {
+                if ($user->id !== Auth::id()) {
+                    $user->notify(new NewMessageReceived($message));
+                }
+            }
             broadcast(new SendMessageEvent($message))->toOthers();
 
             return response()->json([
@@ -70,7 +77,7 @@ class MessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Message  $message
+     * @param \App\Models\Message $message
      * @return \Illuminate\Http\Response
      */
     public function edit(Message $message)
@@ -81,8 +88,8 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Message  $message
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Message $message
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Message $message)
@@ -93,7 +100,7 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Message  $message
+     * @param \App\Models\Message $message
      * @return \Illuminate\Http\Response
      */
     public function destroy(Message $message)

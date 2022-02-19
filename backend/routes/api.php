@@ -58,7 +58,3 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user/{userId}', [RoomController::class, 'show']);
     });
 });
-
-Route::get('test/{keyword}', function($keyword) {
-
-});

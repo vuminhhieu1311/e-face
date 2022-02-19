@@ -1,6 +1,6 @@
-// const IP = '192.168.209.87'; // Du lieu di dong
+const IP = '192.168.241.87'; // Du lieu di dong
 
-const IP = '192.168.16.102'; // Hieu Truong Wifi
+// const IP = '192.168.1.127'; // HM-Home 3.2 Wifi
 
 export const API_URL = `http://${IP}:8000/api/`;
 

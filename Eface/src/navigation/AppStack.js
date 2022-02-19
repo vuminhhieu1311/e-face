@@ -164,13 +164,14 @@ const AppStack = () => {
 
         var notificationChannel = pusher.subscribe(`private-App.Models.User.${user.id}`);
         notificationChannel.bind('Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (event) => {
-            console.log(event);
-            PushNotification.localNotification({
-                channelId: "notification-channel",
-                message: event.message,
-                userInfo: event.friend,
-            });
-            refreshAuthUser();
+            if (event.type !== 'App\\Notifications\\NewMessageReceived') {
+                PushNotification.localNotification({
+                    channelId: "notification-channel",
+                    message: event.message,
+                    userInfo: event.friend,
+                });
+                refreshAuthUser();
+            }
         });
 
         // RN CallKeep event listener
